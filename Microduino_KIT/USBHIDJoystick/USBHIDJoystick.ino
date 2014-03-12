@@ -1,0 +1,264 @@
+#include "U8glib.h"
+
+U8GLIB_SSD1306_128X64 u8g(U8G_I2C_OPT_NONE);	// HW SPI Com: CS = 10, A0 = 9 (Hardware Pins are  SCK = 13 and MOSI = 11)
+//-------字体设置，大、中、小
+#define setFont_L u8g.setFont(u8g_font_7x13)
+#define setFont_M u8g.setFont(u8g_font_fixed_v0r)
+#define setFont_S u8g.setFont(u8g_font_chikitar)
+/*
+font:  
+ u8g.setFont(u8g_font_7x13)
+ u8g.setFont(u8g_font_fixed_v0r);
+ u8g.setFont(u8g_font_chikitar);
+ u8g.setFont(u8g_font_osb21);
+ */
+
+//---------------------------------
+
+#define u8g_logo_width 128
+#define u8g_logo_height 18
+
+const unsigned char u8g_logo_bits[] U8G_PROGMEM = {
+  0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xC0,0x01,0xE0,
+  0x03,0x00,0x00,0x00,0x00,0x7E,0x00,0xF0,0x01,0x00,0x00,0x00,
+  0x00,0xFE,0xF9,0xF7,0x07,0x00,0x00,0x00,0x00,0x3C,0x00,0xF8,
+  0x03,0x00,0x00,0x00,0x00,0xFC,0xF9,0xE1,0x03,0x00,0x00,0x00,
+  0x00,0x38,0x00,0xF0,0x01,0x00,0x00,0x00,0x00,0xFC,0xFF,0x01,
+  0x00,0x00,0x00,0x00,0x00,0x38,0x00,0x00,0x00,0x00,0x00,0x00,
+  0x00,0xFC,0xEF,0xF9,0x8F,0xD7,0x73,0xF1,0xC1,0x3B,0x9F,0xFF,
+  0xFF,0x1E,0x3E,0x00,0x00,0xBC,0xEF,0xC1,0xE1,0x9F,0xFF,0xDD,
+  0xE3,0x3F,0xCC,0xE1,0xF0,0xBF,0x7B,0x00,0x00,0x3C,0xF7,0xE1,
+  0xE1,0x9F,0xFF,0xC6,0xF7,0x3E,0x8E,0xF3,0xF0,0xFF,0xF8,0x00,
+  0x00,0x3C,0xF3,0xE1,0xF1,0x93,0xFF,0xE6,0xF7,0x3C,0x8F,0xF7,
+  0xF0,0xFF,0xFC,0x00,0x00,0x7C,0xF2,0xE1,0xF1,0x83,0x87,0xFE,
+  0xF7,0x39,0xFF,0xF7,0xF0,0xFF,0xFF,0x00,0x00,0x7C,0xF0,0xE3,
+  0xF3,0xA3,0x03,0xFE,0xF7,0x3F,0xFF,0xF7,0x71,0xFC,0xFF,0x00,
+  0x00,0x7C,0xF8,0xE3,0xF3,0xBF,0x03,0xFE,0xE3,0x3F,0xFF,0xF3,
+  0x71,0xDC,0x7F,0x00,0x00,0x7E,0xFC,0xE7,0xE3,0xBF,0x03,0xFC,
+  0xE3,0x3F,0xFE,0xF3,0x71,0x9C,0x7F,0x00,0x00,0xC1,0x03,0xF8,
+  0xCF,0xE7,0x0F,0xF0,0x00,0x7F,0xFC,0xFC,0xFF,0x3E,0x1E,0x00,
+  0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
+};
+
+//---------------------------------
+int p_k,p_x,p_y,p_z;
+
+boolean sta=false;
+
+boolean KEY[3]={
+  false,false,false  };
+
+#include <hid.h>
+#include <hiduniversal.h>
+#include <usbhub.h>
+
+#include "hidjoystickrptparser.h"
+
+
+JoystickReportParser::JoystickReportParser(JoystickEvents *evt) :
+joyEvents(evt),
+oldHat(0xDE),
+oldButtons(0) {
+  for (uint8_t i = 0; i < RPT_GEMEPAD_LEN; i++)
+    oldPad[i] = 0xD;
+}
+
+
+void JoystickReportParser::Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) {
+  bool match = true;
+
+  // Checking if there are changes in report since the method was last called
+  for (uint8_t i = 0; i < RPT_GEMEPAD_LEN; i++)
+    if (buf[i] != oldPad[i]) {
+      match = false;
+      break;
+    }
+
+  // Calling Game Pad event handler
+  if (!match && joyEvents) {
+    joyEvents->OnGamePadChanged((const GamePadEventData*)buf);
+
+    for (uint8_t i = 0; i < RPT_GEMEPAD_LEN; i++) oldPad[i] = buf[i];
+  }
+
+  uint8_t hat = (buf[5] & 0xF);
+
+
+  uint16_t buttons = (0x0000 | buf[6]);
+  buttons <<= 4;
+  buttons |= (buf[5] >> 4);
+  uint16_t changes = (buttons ^ oldButtons);
+
+  // Calling Button Event Handler for every button changed
+  if (changes) {
+    for (uint8_t i = 0; i < 0x0C; i++) {
+      uint16_t mask = (0x0001 << i);
+
+    }
+    oldButtons = buttons;
+  }
+}
+
+void JoystickEvents::OnGamePadChanged(const GamePadEventData *evt) {
+
+  p_k= evt->X;
+  p_x= evt->Y;
+  p_y= evt->Z1;
+  p_z= evt->Z2;
+
+  sta=true;
+
+}
+
+
+
+USB Usb;
+USBHub Hub(&Usb);
+HIDUniversal Hid(&Usb);
+JoystickEvents JoyEvents;
+JoystickReportParser Joy(&JoyEvents);
+
+
+void volcdlogo(unsigned int x,unsigned int y)
+{
+  u8g.firstPage();  
+  do {
+    u8g.drawXBMP( x, y, u8g_logo_width, u8g_logo_height, u8g_logo_bits);
+  } 
+  while( u8g.nextPage() );
+}
+
+
+
+void setup() {
+  Serial.begin(115200);
+//  while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
+//  Serial.println("Start");
+
+  //  u8g.setRot180();
+  volcdlogo(0,20);
+
+  if (Usb.Init() == -1)
+    Serial.println("OSC did not start.");
+
+  delay(200);
+
+  if (!Hid.SetReportParser(0, &Joy))
+    ErrorMessage<uint8_t > (PSTR("SetReportParser"), 1);
+}
+
+void loop() {
+  sta=false;
+
+  Usb.Task();
+
+  switch(p_k)
+  {
+  case 0: 
+    {
+      KEY[0]=false;
+      KEY[1]=false;
+      KEY[2]=false;
+    }
+    break;
+  case 1: 
+    {
+      KEY[0]=true;
+      KEY[1]=false;
+      KEY[2]=false;
+    }
+    break;
+  case 2: 
+    {
+      KEY[0]=false;
+      KEY[1]=true;
+      KEY[2]=false;
+    }
+    break;
+  case 3: 
+    {
+      KEY[0]=true;
+      KEY[1]=true;
+      KEY[2]=false;
+    }
+    break;
+  case 4: 
+    {
+      KEY[0]=false;
+      KEY[1]=false;
+      KEY[2]=true;
+    }
+    break;
+  case 5: 
+    {
+      KEY[0]=true;
+      KEY[1]=false;
+      KEY[2]=true;
+    }
+    break;
+  case 6: 
+    {
+      KEY[0]=false;
+      KEY[1]=true;
+      KEY[2]=true;
+    }
+    break;
+  case 7: 
+    {
+      KEY[0]=true;
+      KEY[1]=true;
+      KEY[2]=true;
+    }
+    break;
+  }
+
+  if(sta)
+  {
+    {
+      Serial.print("\tKEY0: ");
+      Serial.print(KEY[0]);
+      Serial.print(" ,KEY1: ");
+      Serial.print(KEY[1]);
+      Serial.print(" ,KEY2: ");
+      Serial.print(KEY[2]);
+
+      Serial.println(" ");
+    }
+
+    u8g.firstPage();
+    do
+    {
+      draw();
+    }
+    while( u8g.nextPage() );
+  }
+
+}
+
+void draw(void)
+{
+  setFont_M;
+
+  if(KEY[0])
+    u8g.drawBox(0, 0,48,63);
+  else
+    u8g.drawFrame(0, 0,48,63);
+    
+  if(KEY[1])
+    u8g.drawBox(79,0,48,63);
+  else
+    u8g.drawFrame(79,0,48,63);
+  
+  if(KEY[2])
+    u8g.drawRBox(54, 2,20,58,4);
+  else
+    u8g.drawRFrame(54, 2,20,58,4);
+
+}
+
+
