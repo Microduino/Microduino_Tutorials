@@ -1,32 +1,33 @@
     /*
-	Microduino模拟键盘
+	Microduino Analog Keyboard
    
-    功能描述：插上此模拟键盘，打开记事本，然后按下按钮，即可在记事本打印出HELLO WORLD字样
+    Description: Plug this analog keyboard, open Notepad, and then press the button to print out the words "HELLO WORLD" in Notepad 
      
-    接线方法：
-    Microduino D2接68Ω电阻后，接USB线D+
-    Microduino D4接68Ω电阻后，接USB线D-
-    Microduino D5接2.2kΩ电阻后，接USB线D-
-    Microduino D2接3.6v稳压管到GND
-    Microduino D4接3.6v稳压管到GND
-    +5v接USB线VCC
-    GND接USB线GND
-    Microduino D1接一个开关到GND
+    Wiring：
+    Microduino D2 connect to 68Ω，and connect to D+ of USB
+    Microduino D4 connect to  68Ω and connect to D- of USB
+    Microduino D5 connect to  2.2kΩ and connect to D- of USB
+    Microduino D2 connect to 3.6v Diode， end to GND
+    Microduino D4 connect to 3.6v Diode， end to GND
+    +5v connect to VCC of USB
+    GND connect to GND of USB
+    Microduino D1 connect a switch to GND
      
-    附：USB线序颜色（由于各生产厂不同，不一定准确，仅供参考）
-    *USB键鼠：      |        *USB接口
-    白<->VCC        |        红<->VCC
-    橙<->D-         |        白<->D-
-    绿<->D+         |        绿<->D+
-    蓝<->GND        |        黑<->GND
+    
+    Attached: USB cable sequence colors (because various production plants, not necessarily accurate, for reference only)
+    *USB mouse：      |        *USB interface
+    white<->VCC        |        red<->VCC
+    orange<->D-         |        white<->D-
+    green<->D+         |        green<->D+
+    blue<->GND        |        black<->GND
      
     */
      
     #include "UsbKeyboard.h"
-    int KEYPIN = 1;                //按键接在D1引脚，也可以改成任何引脚
+    int KEYPIN = 1;                //button can connect to pin1, or any pin which you wnat
     void setup()
     {
-      TIMSK0 &= !(1 << TOIE0);        //
+      TIMSK0 &= !(1 << TOIE0);        
       pinMode(KEYPIN, INPUT);
       digitalWrite(KEYPIN, HIGH);
     }
