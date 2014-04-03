@@ -5,7 +5,7 @@ int action;
 int deg=0;
 int t;
 
-int RECV_PIN = 11;//定义红外接收器的引脚为11
+int RECV_PIN = 11;//Defined infrared receiver pin 11
 IRrecv irrecv(RECV_PIN);
 Servo servo;
 decode_results results;
@@ -13,31 +13,31 @@ decode_results results;
 int deckey(unsigned long t)
 {
   switch(t){
-    case 0xFD08F7://按钮1的编码
+    case 0xFD08F7://button 1's code
     return 1;
     break;
-    case 0xFD8877://按钮2的编码
+    case 0xFD8877://button 2's code
     return 2;
     break;
-    case 0xFD48B7://按钮3的编码
+    case 0xFD48B7://button 3's code
     return 3;
     break;
-    case 0xFD28D7://按钮4的编码
+    case 0xFD28D7://button 4's code
     return 4;
     break;
-    case 0xFDA857://按钮5的编码
+    case 0xFDA857://button 5's code
     return 5;
     break;
-    case 0xFD6897://按钮6的编码
+    case 0xFD6897://button 6's code
     return 6;
     break;
-    case 0xFD18E7://按钮7的编码
+    case 0xFD18E7://button 7's code
     return 7;
     break;
-    case 0xFD9867://按钮8的编码
+    case 0xFD9867://button 8's code
     return 8;
     break;
-    case 0xFD58A7://按钮9的编码
+    case 0xFD58A7://button 9's code
     return 9;
     break;
     default:
@@ -49,7 +49,7 @@ int deckey(unsigned long t)
 void setup()
 {
   Serial.begin(9600);
-  irrecv.enableIRIn(); // 初始化红外接收器
+  irrecv.enableIRIn(); // Initialization infrared receiver
   servo.attach(9);//D9pin
   servo.write(0);
   t=0;
@@ -61,9 +61,9 @@ void loop() {
   if (irrecv.decode(&results))
   {
     action=deckey(results.value);
-    Serial.println(results.value, HEX);//以16进制换行输出接收代码
+    Serial.println(results.value, HEX);//Wrap output in hexadecimal code receiver
     Serial.println(action);
-    Serial.println();//为了便于观看输出结果增加一个空行
+    Serial.println();
 
     switch(action)
     {
