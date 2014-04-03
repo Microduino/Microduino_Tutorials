@@ -1,20 +1,19 @@
-
-//Pin 连接到 74HC595的ST_CP
+//Pin8 connect to  ST_CP of 74HC595
 int latchPin = 8;
-//Pin 连接到 74HC595的SH_CP
+//Pin12 connect to SH_CP of 74HC595
 int clockPin = 12;
-//Pin 连接到 74HC595的DS
+//Pin11 connect to DS of 74HC595
 int dataPin = 11;
 
-//设定时间
+//define time
 unsigned long time;
 
-//掩盖行定义
+//mask row define
 byte masks[8]={
   B01111111,B10111111,B11011111,B11101111,B11110111,B11111011,B11111101,B11111110};
 
   
-  //笑脸动作定义
+  //smail action define
 byte rows[2][8]={
   {
     B00111100,B01000010,B10100101,B10000001,B10100101,B10011001,B01000010,B00111100  }
@@ -25,20 +24,19 @@ byte rows[2][8]={
 
 
 void setup() {
-  //波特率为9600，用于调试         
   Serial.begin(9600);
-  //设置 latchpin 为 output
+  //set latchpin is output
   pinMode(latchPin, OUTPUT);
 
 }
 
 void loop() {
 
-  //笑脸动作变换
+  //smail action change
   for(int j=0;j<2;j++) {
 
     unsigned long startTime = millis();
-    for (unsigned long elapsed=0; elapsed < 1000; elapsed = millis() - startTime) {//持续显示600ms
+    for (unsigned long elapsed=0; elapsed < 1000; elapsed = millis() - startTime) {//continue display 600ms
       for(int i=0;i<8;i++) {
         digitalWrite(latchPin, 0);
         shiftOut(dataPin, clockPin, masks[i]);  //mask(col)
