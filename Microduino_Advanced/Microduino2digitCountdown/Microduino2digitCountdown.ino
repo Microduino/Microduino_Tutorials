@@ -1,9 +1,8 @@
+byte digit0 = 10;	//ten digital for Microduino pin10
+byte digit1 = 11;	//singal digital for Microduino pin11
+byte dotPin = 2;	//digital decimal point Corresponding pin2
 
-byte digit0 = 10;	//十位数Microduino pin
-byte digit1 = 11;	//个位数Microduino pin
-byte dotPin = 2;	//数码管小数点对应的pin
-
-byte sevenSegmentPins[] = {2,3,4,5,6,7,8};	//A,B,C,D,E,F,G  对应的Microduino pin
+byte sevenSegmentPins[] = {2,3,4,5,6,7,8};	//A,B,C,D,E,F,G  corresponding Microduino pin
 byte sevenSegment[10][7] =
 {
   //a b c d e f g
@@ -21,7 +20,7 @@ byte sevenSegment[10][7] =
 
 void setup()
 {
-	//初始化全部亮起
+	//inital all light
    pinMode(dotPin, OUTPUT); //pin 9
    pinMode(digit0, OUTPUT); //pin 10
    pinMode(digit1, OUTPUT); //pin 11
@@ -35,7 +34,7 @@ void setup()
   digitalWrite(digit1, HIGH);
 }
 
-//显示数字
+//show number
 void segmentWrite(byte digit)
 {
   byte pin = 2;
@@ -49,19 +48,19 @@ void segmentWrite(byte digit)
 void loop()
 {
 
-  for(int i=9;i>=0;i--) {//倒计时十位数
-    for(int j=9;j>=0;j--) {//倒计时个位数
+  for(int i=9;i>=0;i--) {//ten digital countdown
+    for(int j=9;j>=0;j--) {//single digital countdown
       
       unsigned long startTime = millis();
-      for (unsigned long elapsed=0; elapsed < 600; elapsed = millis() - startTime) {//持续显示600ms
-          digitalWrite(digit0, LOW);   //熄灭十位数码管
-          segmentWrite(j);             //显示个位
-          delay(10);                  //10ms 延迟
-          digitalWrite(digit0, HIGH);  //点亮十位数码管
-          digitalWrite(digit1, LOW);   //熄灭个位数码管
-          segmentWrite(i);             //显示十位
-          delay(10);                  //10ms 延迟
-          digitalWrite(digit1, HIGH);  //点亮个位数码管
+      for (unsigned long elapsed=0; elapsed < 600; elapsed = millis() - startTime) {//Continuous display 600ms
+          digitalWrite(digit0, LOW);   //ten digital disable
+          segmentWrite(j);             //show singal digital
+          delay(10);                  //10ms delay
+          digitalWrite(digit0, HIGH);  //ten digital enable
+          digitalWrite(digit1, LOW);   //single digital disable
+          segmentWrite(i);             //show ten digital
+          delay(10);                  //10ms delay
+          digitalWrite(digit1, HIGH);  //single digital enable
       }
       
     }
