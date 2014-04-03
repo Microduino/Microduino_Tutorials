@@ -13,12 +13,12 @@ void setup()
   pinMode(3,OUTPUT);
   pinMode(11,OUTPUT);
   Serial.begin(9600);  
-  irrecv.enableIRIn();   //红外使能
+  irrecv.enableIRIn(); 
 }
 /*---------------------------------------------------------------------------------*/
 void hongwaikong()
 {
-  unsigned long remote = results.value;	//设红外信号为remote
+  unsigned long remote = results.value;	//set iR signal is remote
 
     Serial.println(remote,HEX);
   if(remote==0xFF906F||remote==0xFD00FF) 
