@@ -1,9 +1,8 @@
+byte digit0 = 10;	//ten digital for Microduino pin10
+byte digit1 = 11;	//single digital for Microduino pin11
+byte dotPin = 2;	//pointer for pin2
 
-byte digit0 = 10;	//十位数Microduino pin
-byte digit1 = 11;	//个位数Microduino pin
-byte dotPin = 2;	//数码管小数点对应的pin
-
-byte sevenSegmentPins[] = {2,3,4,5,6,7,8};	//A,B,C,D,E,F,G  对应的Microduino pin
+byte sevenSegmentPins[] = {2,3,4,5,6,7,8};	//A,B,C,D,E,F,G  correspanding Microduino pin
 byte sevenSegment[10][7] =
 {
   //a b c d e f g
@@ -22,7 +21,7 @@ byte sevenSegment[10][7] =
 void setup()
 {
 
-	//初始化全部亮起
+	//inital all light
    pinMode(dotPin, OUTPUT); //pin 2
    pinMode(digit0, OUTPUT); //pin 10
    pinMode(digit1, OUTPUT); //pin 11
@@ -36,7 +35,7 @@ void setup()
   digitalWrite(digit1, HIGH);
 }
 
-//显示数字
+//show number
 void segmentWrite(byte digit)
 {
   byte pin = 2;
@@ -49,14 +48,14 @@ void segmentWrite(byte digit)
 
 void loop()
 {
-  //显示 68
-  digitalWrite(digit0, LOW);   //熄灭十位数码管
-  segmentWrite(8);             //显示个位8
-  delay(10);                  //10ms 延迟
-  digitalWrite(digit0, HIGH);  //点亮十位数码管
-  digitalWrite(digit1, LOW);   //熄灭个位数码管
-  segmentWrite(6);             //显示十位6
-  delay(10);                  //10ms 延迟
-  digitalWrite(digit1, HIGH);  //点亮个位数码管
+  //dispaly 68
+  digitalWrite(digit0, LOW);   //disable ten digital
+  segmentWrite(8);             //show single digital 8
+  delay(10);                  //10ms delay
+  digitalWrite(digit0, HIGH);  //enable ten digital
+  digitalWrite(digit1, LOW);   //disable single digital
+  segmentWrite(6);             //show ten digital 6
+  delay(10);                  //10ms delay
+  digitalWrite(digit1, HIGH);  //enable single digital
 
 }
