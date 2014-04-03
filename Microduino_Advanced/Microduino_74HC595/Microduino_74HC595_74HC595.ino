@@ -1,33 +1,33 @@
 /*                               
-使用一个74HC595移位寄存器代码
-    计数从0到255的
+Using a 74HC595 shift register code
+     Count from 0 to 255
 */
 
-//Pin 8 连接到 74HC595的ST_CP
+//Pin 8 connect to ST_CP of 74HC595
 int latchPin = 8;
-//Pin 12 连接到  74HC595的SH_CP
+//Pin 12 connect to SH_CP of 74HC595
 int clockPin = 12;
-////Pin 11 连接到  74HC595的DS
+////Pin 11 connect to DS of 74HC595
 int dataPin = 11;
 
 
 
 void setup() {
-  //设置 pins 为 output 以便于你能控制移位寄存器
+  //Set pins to output so that you can control the shift register
   pinMode(latchPin, OUTPUT);
   pinMode(clockPin, OUTPUT);
   pinMode(dataPin, OUTPUT);
 }
 
 void loop() {
-  // 在LED上显示2进制数字，从0到255
+  // 2 hex digits in the LED display on, from 0-255
   for (int numberToDisplay = 0; numberToDisplay < 256; numberToDisplay++) {
-    // 设置 latchPin 为低电平 
+    // Set latchPin LOW
     digitalWrite(latchPin, LOW);
-    // 输入十进制数字
+    // Enter the decimal number
     shiftOut(dataPin, clockPin, MSBFIRST, numberToDisplay);  
 
-    //设置 latch pin 为高电平，LED将显示对应的二进制数字
+    //Set latch pin is high, LED will display the corresponding binary numbers
     digitalWrite(latchPin, HIGH);
     // pause before next value:
     delay(500);
