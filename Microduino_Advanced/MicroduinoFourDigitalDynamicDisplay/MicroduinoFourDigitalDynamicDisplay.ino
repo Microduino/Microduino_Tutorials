@@ -1,34 +1,36 @@
-/* 四位数码管的可控显示
-** 注意，使用的5461AS是共阴极的，如果您是共阳极的需要注意某些部分的HIGH与LOW的替换
+/* Four digital tube display control
+** Note that the use of 5461AS is common cathode, anode, if you use common Anode, pay attention to is the replacement of certain parts of the HIGH and LOW
 */
 
-//设置阳极接口
-//D1口用来做串口数据传输（TX）
-int a = 2;//D0,D1口在本程序中用来数据传出传入，不能当作数字针脚使用。
+//Set anode Interface
+//D1 port used for serial data transmission (TX)
+int a = 2;//pin D0,D1 in this programm is use to data input, output
 int b = 3;
 int c = 4;
 int d = 5;
 int e = 6;
 int f = 7;
 int g = 8;
-int p = 9;//小数点
-//设置阴极接口（控制1、2、3、4数码管的亮与灭）
-int d1 = 13;//千位
-int d2 = 12;//百位
-int d3 = 11;//十位
-int d4 = 10;//个位
-//设置变量
-int del = 5000;  //此数值可用于对时钟进行微调
-int changepin = A0;//从A0口输入电位计数据
-int val=0;//接收从A0口获得的电位计数值
-int val4=0;  //千位上的数字，即DIG1上的数字，对应针脚为d1，Arduino上的针脚为13
-int val3=0;  //百位上的数字，即DIG2上的数字，对应针脚为d2，Arduino上的针脚为12
-int val2=0;  //十位上的数字，即DIG3上的数字，对应针脚为d3，Arduino上的针脚为11
-int val1=0;  //个位上的数字，即DIG4上的数字，对应针脚为d4，Arduino上的针脚为10
+int p = 9;//pointer
+
+//Set cathode interface (1,2,3,4 digital control of light on and off)
+int d1 = 13;//thousand digital
+int d2 = 12;//hundred digital
+int d3 = 11;//ten digital
+int d4 = 10;//个位single digital
+
+
+int del = 5000;  //This value can be used to fine-tune the clock
+int changepin = A0;//Potentiometer input data from A0 mouth
+int val=0;//Receiving a count value obtained from a potential opening A0
+int val4=0;  //pin13 thousand
+int val3=0;  //pin12 hundred
+int val2=0;  //pin11 ten
+int val1=0;  //pin10 single
 
 void setup()
 {
-  Serial.begin(9600);//设置串口通信速率为9600
+  Serial.begin(9600);
  
   pinMode(d1, OUTPUT);
   pinMode(d2, OUTPUT);
@@ -48,19 +50,16 @@ void setup()
 
 void loop()
 {
-  val=analogRead(changepin);//读取电位计数值并赋给val
-  Serial.println(val);//从串口中输出val的值
-  for(int i=0;i<25;i++)//为了让数字不要那么灵敏的变来变去，给他循环25次恰好满足我的需求
+  val=analogRead(changepin);
+  Serial.println(val);
+  for(int i=0;i<25;i++)//To make digital not so sensitive come and go, giving him 25 cycles just to satisfy my needs
   {
-    //条件判断，根据val的位数分别显示
-    if(val>=1000)//四位数
+    
+    if(val>=1000)//Ten thousand
     {
-      //注意，这里用使用了两种取某一位上的数字的算法，我只是想试试两种算法是否都好用
-      val4=(val/1000)%10;                         /*比如1023除以1000等于1.023，
-       取整数得到1，此即为千位上的数字，此为第一种算法，简单.*/
-      val3=( val-((val/1000)%10*1000) )/100%10;   /*比如523减去523除以100等于5.23，取整后乘以100得到500，
-       用523减去500得到23，再除以10得到2.3，取整后得到2，
-       此为百位上的数字，此为第二章算法，稍显复杂，不过用起来也可以*/
+
+      val4=(val/1000)%10;
+      val3=( val-((val/1000)%10*1000) )/100%10;
       val2=(val-val/100%10*100)/10%10;
       val1= val-val/10%10*10-val/1000%10*1000;
 
@@ -84,7 +83,7 @@ void loop()
       pickNumber(val4);
       delayMicroseconds(del);
     }
-    else if(val>=100 && val<1000)//三位数
+    else if(val>=100 && val<1000)//thousand
     {
       val3=(val/100)%10;
       val2=((val-(((val/100)%10)*100))/10)%10;
@@ -105,7 +104,7 @@ void loop()
       pickNumber(val3);
       delayMicroseconds(del);  
     }
-    else if(val>=10 && val<100)//两位数
+    else if(val>=10 && val<100)//hundred
     {
       val2=(val/10)%10;
       val1=val-(((val/10)%10)*10);
@@ -120,7 +119,7 @@ void loop()
       pickNumber(val2);
       delayMicroseconds(del);
     }
-    else if(val>=0 && val<10)//一位数
+    else if(val>=0 && val<10)//ten
     {
       val1=val;
       clearLEDs();
@@ -131,7 +130,7 @@ void loop()
   }
 }
 
-void pickDigit(int x)  //定义pickDigit(x),其作用是开启dx端口
+void pickDigit(int x)
 {
   digitalWrite(d1, HIGH);
   digitalWrite(d2, HIGH);
@@ -156,7 +155,7 @@ void pickDigit(int x)  //定义pickDigit(x),其作用是开启dx端口
   }
 }
 
-void pickNumber(int x)   //定义pickNumber(x),其作用是显示数字x
+void pickNumber(int x)
 {
   switch(x)
   {
@@ -193,7 +192,7 @@ void pickNumber(int x)   //定义pickNumber(x),其作用是显示数字x
   }
 }
 
-void clearLEDs()  //清屏
+void clearLEDs()  //clear screen
 {
   digitalWrite(a, LOW);
   digitalWrite(b, LOW);
@@ -207,11 +206,8 @@ void clearLEDs()  //清屏
 }
 
 
-/*
-下面实现数字0到9以及小数点dp的显示，你也可以使用二维数组来实现这一部分，
- 详情请看博文：http://tahoroom.sinaapp.com/archives/5790.html
- */
-void zero()  //定义数字0时各阳极针脚的开关
+
+void zero()  //0
 {
   digitalWrite(a, HIGH);
   digitalWrite(b, HIGH);
@@ -222,7 +218,7 @@ void zero()  //定义数字0时各阳极针脚的开关
   digitalWrite(g, LOW);
 }
 
-void one()  //定义数字1时各阳极针脚的开关
+void one()  //1
 {
   digitalWrite(a, LOW);
   digitalWrite(b, HIGH);
@@ -233,7 +229,7 @@ void one()  //定义数字1时各阳极针脚的开关
   digitalWrite(g, LOW);
 }
 
-void two()  //定义数字2时各阳极针脚的开关
+void two()  //2
 {
   digitalWrite(a, HIGH);
   digitalWrite(b, HIGH);
@@ -244,7 +240,7 @@ void two()  //定义数字2时各阳极针脚的开关
   digitalWrite(g, HIGH);
 }
 
-void three()  //定义数字3时各阳极针脚的开关
+void three()  //3
 {
   digitalWrite(a, HIGH);
   digitalWrite(b, HIGH);
@@ -255,7 +251,7 @@ void three()  //定义数字3时各阳极针脚的开关
   digitalWrite(g, HIGH);
 }
 
-void four()  //定义数字4时各阳极针脚的开关
+void four()  //4
 {
   digitalWrite(a, LOW);
   digitalWrite(b, HIGH);
@@ -266,7 +262,7 @@ void four()  //定义数字4时各阳极针脚的开关
   digitalWrite(g, HIGH);
 }
 
-void five()  //定义数字5时各阳极针脚的开关
+void five()  //5
 {
   digitalWrite(a, HIGH);
   digitalWrite(b, LOW);
@@ -277,7 +273,7 @@ void five()  //定义数字5时各阳极针脚的开关
   digitalWrite(g, HIGH);
 }
 
-void six()  //定义数字6时各阳极针脚的开关
+void six()  //6
 {
   digitalWrite(a, HIGH);
   digitalWrite(b, LOW);
@@ -288,7 +284,7 @@ void six()  //定义数字6时各阳极针脚的开关
   digitalWrite(g, HIGH);
 }
 
-void seven()  //定义数字7时各阳极针脚的开关
+void seven()  //7
 {
   digitalWrite(a, HIGH);
   digitalWrite(b, HIGH);
@@ -299,7 +295,7 @@ void seven()  //定义数字7时各阳极针脚的开关
   digitalWrite(g, LOW);
 }
 
-void eight()  //定义数字8时各阳极针脚的开关
+void eight()  //8
 {
   digitalWrite(a, HIGH);
   digitalWrite(b, HIGH);
@@ -310,7 +306,7 @@ void eight()  //定义数字8时各阳极针脚的开关
   digitalWrite(g, HIGH);
 }
 
-void nine()  //定义数字9时各阳极针脚的开关
+void nine()  //9
 {
   digitalWrite(a, HIGH);
   digitalWrite(b, HIGH);
@@ -321,7 +317,7 @@ void nine()  //定义数字9时各阳极针脚的开关
   digitalWrite(g, HIGH);
 }
 
-void dpoint() //点亮小数点
+void dpoint() //pointer
 {
   digitalWrite(p, HIGH);
 }
