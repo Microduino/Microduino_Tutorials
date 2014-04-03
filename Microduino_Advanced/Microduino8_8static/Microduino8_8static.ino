@@ -1,17 +1,15 @@
-
-    //Pin Á¬½Óµ½ 74HC595µÄST_CP
+    //Pin8 connect to ST_CP of 74HC595
     int latchPin = 8;
-    //Pin Á¬½Óµ½ 74HC595µÄSH_CP
+    //Pin12 connect to SH_CP of 74HC595
     int clockPin = 12;
-    ////Pin Á¬½Óµ½ 74HC595µÄDS
+    ////Pin11 connect to DS of 74HC595
     int dataPin = 11;
      
      
      
     void setup() {
-      //²¨ÌØÂÊÎª9600£¬ÓÃÓÚµ÷ÊÔ   
       Serial.begin(9600);
-      //ÉèÖÃ latchpin Îª output
+      //è®¾ç½® latchpin ä¸º output
       pinMode(latchPin, OUTPUT);
      
     }
@@ -19,43 +17,43 @@
     void loop() {
       //Smile for 8x8 Matrix LED
       digitalWrite(latchPin, 0);
-      shiftOut(dataPin, clockPin, B01111111);  //ÑÚ¸ÇµÄÁÐ(col)
-      shiftOut(dataPin, clockPin, B00111100);  //ÐÐrow
+      shiftOut(dataPin, clockPin, B01111111); //mask(col)
+      shiftOut(dataPin, clockPin, B00111100); //row
       digitalWrite(latchPin, 1);
      
       digitalWrite(latchPin, 0);
-      shiftOut(dataPin, clockPin, B10111111);  //ÑÚ¸ÇµÄÁÐ(col)
-      shiftOut(dataPin, clockPin, B01000010);  //ÐÐrow
+      shiftOut(dataPin, clockPin, B10111111); //mask(col)
+      shiftOut(dataPin, clockPin, B01000010); //row
       digitalWrite(latchPin, 1);
      
       digitalWrite(latchPin, 0);
-      shiftOut(dataPin, clockPin, B11011111);  //ÑÚ¸ÇµÄÁÐ(col)
-      shiftOut(dataPin, clockPin, B10100101);  //ÐÐrow
+      shiftOut(dataPin, clockPin, B11011111); //mask(col)
+      shiftOut(dataPin, clockPin, B10100101); //row
       digitalWrite(latchPin, 1);
      
       digitalWrite(latchPin, 0);
-      shiftOut(dataPin, clockPin, B11101111);  //ÑÚ¸ÇµÄÁÐ(col)
-      shiftOut(dataPin, clockPin, B10000001);  //ÐÐrow
+      shiftOut(dataPin, clockPin, B11101111); //mask(col)
+      shiftOut(dataPin, clockPin, B10000001); //row
       digitalWrite(latchPin, 1);
      
       digitalWrite(latchPin, 0);
-      shiftOut(dataPin, clockPin, B11110111);  //ÑÚ¸ÇµÄÁÐ(col)
-      shiftOut(dataPin, clockPin, B10100101);  //ÐÐrow
+      shiftOut(dataPin, clockPin, B11110111); //mask(col)
+      shiftOut(dataPin, clockPin, B10100101); //row
       digitalWrite(latchPin, 1);
      
       digitalWrite(latchPin, 0);
-      shiftOut(dataPin, clockPin, B11111011);  //ÑÚ¸ÇµÄÁÐ(col)
-      shiftOut(dataPin, clockPin, B10011001);  //ÐÐrow
+      shiftOut(dataPin, clockPin, B11111011); //mask(col)
+      shiftOut(dataPin, clockPin, B10011001); //row
       digitalWrite(latchPin, 1);
      
       digitalWrite(latchPin, 0);
-      shiftOut(dataPin, clockPin, B11111101);  //ÑÚ¸ÇµÄÁÐ(col)
-      shiftOut(dataPin, clockPin, B01000010);  //ÐÐrow
+      shiftOut(dataPin, clockPin, B11111101); //mask(col)
+      shiftOut(dataPin, clockPin, B01000010); //row
       digitalWrite(latchPin, 1);
      
       digitalWrite(latchPin, 0);
-      shiftOut(dataPin, clockPin, B11111110);  //ÑÚ¸ÇµÄÁÐ(col)
-      shiftOut(dataPin, clockPin, B00111100);  //ÐÐrow
+      shiftOut(dataPin, clockPin, B11111110); //mask(col)
+      shiftOut(dataPin, clockPin, B00111100); //row
       digitalWrite(latchPin, 1);
      
      
@@ -63,7 +61,7 @@
      
     void shiftOut(int myDataPin, int myClockPin, byte myDataOut) {
      
-      //³õÊ¼»¯ÉèÖÃ
+      //inital setup
       int i=0;
       int pinState;
       pinMode(myClockPin, OUTPUT);
@@ -78,7 +76,7 @@
       //NOTICE THAT WE ARE COUNTING DOWN in our for loop
       //This means that %00000001 or "1" will go through such
       //that it will be pin Q0 that lights.
-      for (i=7; i>=0; i--)  {
+      for (i=7; i>=0; i--) {
         digitalWrite(myClockPin, 0);
      
         //if the value passed to myDataOut and a bitmask result
@@ -88,13 +86,13 @@
         if ( myDataOut & (1<<i) ) {
           pinState= 1;
         }
-        else {       
+        else {
           pinState= 0;
         }
      
         //Sets the pin to HIGH or LOW depending on pinState
         digitalWrite(myDataPin, pinState);
-        //register shifts bits on upstroke of clock pin  
+        //register shifts bits on upstroke of clock pin
         digitalWrite(myClockPin, 1);
         //zero the data pin after shift to prevent bleed through
         digitalWrite(myDataPin, 0);
