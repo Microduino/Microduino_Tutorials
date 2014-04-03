@@ -1,6 +1,6 @@
     /*  
 
-    7段数码管具体表现方法如下
+    Specific performance 7 digital control method is as follows:
           
                A
               ____
@@ -11,7 +11,7 @@
                     o DP
                D
               
-          引脚分布情况是这样滴
+          pin num layout:
           
           10 9 8 7 6
            ________
@@ -22,31 +22,31 @@
           
           1 2 3 4 5  
           
-          * 怎么接到Microduino上呢？
-          * 首先看3和8这两个管脚，一般是共级，套件是共阳数码管，所以这两个是+极，两个引脚其实是接在一起的，所以我们使用其中一个即可
-          * 1 (E) 接到Microduino的 10号引脚
-          * 2 (D) 接到Microduino的 9号引脚
-          * 3 因为我们只使用1位数码管，所以请将本引脚或者8号引脚的任意一个接到Microduino的5号数字口即可
-          * 4 (C) 接到Microduino的 8号引脚
-          * 5 (DP) 接到Microduino的13号引脚
-          * 6 (B) 接到Microduino的7号引脚
-          * 7 (A) 接到Microduino的6号引脚
-          * 8 因为我们只使用1位数码管，所以请将本引脚或者3号引脚的任意一个接到Microduino的5号数字口即可
-          * 9 (F) 接到Microduino的11号引脚
-          * 10 (G) 接到Microduino的12号引脚
+          * How connect Microduino on it?
+          * First look at these two pins 3 and 8, generally is + or -.
+          * 1 (E) connect to Microduino's pin10
+          * 2 (D) connect to Microduino's  pin9
+          * 3 Because we only use a digital control, so set the pin or 8-pin connect to Microduino digital pin5
+          * 4 (C) connect to Microduino pin8
+          * 5 (DP) connect to Microduino pin13
+          * 6 (B) connect to Microduino pin7
+          * 7 (A) connect to Microduino pin6
+          * 8 Because we only use a digital control, so set the pin or 8-pin connect to Microduino digital pin5
+          * 9 (F) connect to Microduino pin11
+          * 10 (G) connect to Microduino pin12
           
     */
      
     #include "SevSeg.h"
     SevSeg sevseg;
     void setup() {
-    //定义需要使用的引脚
+    //define needed pin
 		sevseg.Begin(1,2,3,4,5,6,7,8,9,10,11,12,13);
      
     }
      
     void loop() {
-      //激活输出功能
+      //enable printout
 		sevseg.PrintOutput();
-        sevseg.NewNum(9, 0);     //数码管函数输出数字，其中数值为小数点所在位置，我放在第0格所以效果就是显示小数点
+        	sevseg.NewNum(9, 0);     //Function digital output figures, the value of which is the location of the decimal point, I put the grid so the effect is 0 decimal places displayed
       }
