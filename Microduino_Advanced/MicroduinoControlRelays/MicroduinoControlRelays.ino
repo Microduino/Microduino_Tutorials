@@ -1,29 +1,29 @@
 /*
- * 用继电器控制电机
+ * relay control DC motor
  */
  
-const int buttonPin = 2;                 // 按钮(pushbutton)
-const int relayPin = 13;                 // 继电器(Relay)
-int relayState = 0;                      // 继电器状态
+const int buttonPin = 2;                 // pushbutton
+const int relayPin = 13;                 // Relay
+int relayState = 0;                      // relay state
  
 void setup()
 {
-  Serial.begin(9600);                     // 开启 Serial port, 波特率 9600 bps
+  Serial.begin(9600);
    
-  pinMode(buttonPin, INPUT);             // 把 buttonPin 设置成 INPUT
-  pinMode(relayPin, OUTPUT);             // 把 relayPin 设置成 OUTPUT    
+  pinMode(buttonPin, INPUT);             // set buttonPin to INPUT
+  pinMode(relayPin, OUTPUT);             // set relayPin to OUTPUT    
 }
  
 void switchRelay()
 {
   if (relayState == 0)                        
-    relayState = 1;                      // 把继电器状态改为 ON
+    relayState = 1;                      // change relay state to ON
   else
-    relayState = 0;                      // 把继电器状态改为 OFF     
+    relayState = 0;                      // change relay state to OFF     
        
-  digitalWrite(relayPin, relayState);    // 切换开关
+  digitalWrite(relayPin, relayState);    // switch
  
-  Serial.print("Relay status: ");        // 串口输出继电器状态
+  Serial.print("Relay status: ");        // serial print relay state
   Serial.println(relayState);
 }
  
@@ -31,13 +31,13 @@ void loop()
 {
   int buttonState;
    
-  // 读取按钮状态
+  // read button state
   buttonState = digitalRead(buttonPin);
  
-  // 检查按钮是否按下(pressed)
-  // 有的話，buttonState 會是 HIGH
+  // check button if pressed
+  // buttonState is HIGH
   if (buttonState == HIGH) {      
-     switchRelay();                      // 切换继电器开关
-     delay(500);                         // 延迟0.5秒
+     switchRelay();                      // switch relay on/off
+     delay(500);                         // delay 0.5s
   }
 }
