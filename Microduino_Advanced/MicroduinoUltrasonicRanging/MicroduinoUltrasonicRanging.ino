@@ -12,14 +12,14 @@ void setup()
 void loop()
 {
 	digitalWrite(8, LOW);
-	digitalWrite(TrigPin, LOW); //低高低电平发一个短时间脉冲去TrigPin
+	digitalWrite(TrigPin, LOW); 
 	delayMicroseconds(2);
 	digitalWrite(TrigPin, HIGH);
 	delayMicroseconds(10);
 	digitalWrite(TrigPin, LOW);
 
-	cm = pulseIn(EchoPin, HIGH) / 58.0; //将回波时间换算成cm
-	cm = (int(cm * 100.0)) / 100.0; //保留两位小数
+	cm = pulseIn(EchoPin, HIGH) / 58.0; //Echo time will be converted into cm
+	cm = (int(cm * 100.0)) / 100.0; //Two decimal places
 	if (cm>=2 && cm<=10)
 		digitalWrite(8, HIGH);
 }
