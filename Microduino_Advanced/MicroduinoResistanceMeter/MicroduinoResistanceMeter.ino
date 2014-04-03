@@ -1,5 +1,5 @@
     #define N 12
-    #define basis 20000.0   //基准电阻
+    #define basis 20000.0   //Reference resistor
 
     int potpin = A4;
     float val, r;
@@ -35,7 +35,7 @@
         }
     }
 
-	//滤波算法
+	//Filtering algorithm
     float filter()
     {
         float sum = 0;
