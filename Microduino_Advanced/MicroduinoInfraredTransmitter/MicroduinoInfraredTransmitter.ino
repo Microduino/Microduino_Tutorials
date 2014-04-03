@@ -1,6 +1,6 @@
-#include <IRremote.h>                  // 引用 IRRemote 函式库
+#include <IRremote.h>                  // call IRRemote lib
 
-IRsend irsend;                          // 定义 IRsend 物件来发射红外线讯号
+IRsend irsend; 
 // constants won't change. They're used here to
 // set pin numbers:
 const int buttonPin = 2;     // the number of the pushbutton pin
@@ -15,9 +15,9 @@ void setup() {
   // initialize the pushbutton pin as an input:
   pinMode(buttonPin, INPUT);  
 
-  digitalWrite(ledPin, HIGH);   // 点亮LED测试（需通过手机摄像模式观察）
-  delay(3000);             // 等待3秒
-  digitalWrite(ledPin, LOW);    // 结束测试  
+  digitalWrite(ledPin, HIGH); 
+  delay(3000);
+  digitalWrite(ledPin, LOW); 
 }
 
 void loop(){
