@@ -1,7 +1,5 @@
 /*
-Arduino Frequency meter
-Ansifa
-2013/1/5
+Microduino Frequency meter
 */
 int divider[6] = {0, 1, 8, 64, 256, 1024};
 int prescaler = 5;
