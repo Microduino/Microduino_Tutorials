@@ -189,9 +189,3 @@ void Speed()
   if(speedS<=3)
     speedS=3;
 }
-
-
-
-
-
-
