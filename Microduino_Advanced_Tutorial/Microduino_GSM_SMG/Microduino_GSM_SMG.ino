@@ -38,13 +38,6 @@ void setup()
   delay(100);
   //-------------------------
 
-  Serial1.println("AT");    //Ready
-  delay(200);
-  Serial1.println("AT"); 
-  delay(200);
-
-  //-------------------------
-
   pinMode(2,INPUT_PULLUP); //D2脚为输入
   pinMode(3,INPUT_PULLUP); //D3脚为输入
   pinMode(E_enter,INPUT_PULLUP); //D3脚为输入
