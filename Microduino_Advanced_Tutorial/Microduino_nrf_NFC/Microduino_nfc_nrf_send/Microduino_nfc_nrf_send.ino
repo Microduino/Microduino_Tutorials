@@ -128,7 +128,7 @@ void nrf()
     ledStatus,x                                                                         };
   RF24NetworkHeader header(x);    //1,2,3,4
   bool ok = network.write(header,&payload,sizeof(payload));
-  Serial.println(ledStatus);
+  Serial.println(x);
   if (ok)
     Serial.println(" ..ok.");
   else
