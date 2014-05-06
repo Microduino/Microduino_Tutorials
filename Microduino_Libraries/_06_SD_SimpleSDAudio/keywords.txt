@@ -1,0 +1,39 @@
+#######################################
+# Syntax Coloring SimpleSDAudio
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+SdPlay	KEYWORD3
+SdPlayClass	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+setSDCSPin	KEYWORD2
+setWorkBuffer	KEYWORD2
+init	KEYWORD2
+deInit	KEYWORD2
+dir	KEYWORD2
+setFile	KEYWORD2
+worker	KEYWORD2
+stop	KEYWORD2
+play	KEYWORD2
+pause	KEYWORD2
+isStopped	KEYWORD2
+isPlaying	KEYWORD2
+isPaused	KEYWORD2
+isUnderrunOccured	KEYWORD2
+getLastError	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+SSDA_MODE_FULLRATE	LITERAL1
+SSDA_MODE_HALFRATE	LITERAL1
+SSDA_MODE_MONO	LITERAL1
+SSDA_MODE_STEREO	LITERAL1
+SSDA_MODE_MONO_BRIDGE	LITERAL1
+SSDA_VERSIONSTRING	LITERAL1

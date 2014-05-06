@@ -1,0 +1,10 @@
+16000000/
+8000000/
+out/
+docs/
+.*.swp
+Session.vim
+*.swp
+version.h
+*.orig
+*.bak

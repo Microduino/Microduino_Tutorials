@@ -1,0 +1,47 @@
+#######################################
+# Syntax Coloring Map For Rtc_Pcf8563
+####################################### 
+# Datatypes (KEYWORD1)
+#######################################
+
+Rtc_Pcf8563	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+initClock	KEYWORD2
+clearStatus KEYWORD2
+getDate	KEYWORD2
+setDate	KEYWORD2
+getTime	KEYWORD2
+setTime	KEYWORD2
+setAlarm 	KEYWORD2
+clearAlarm	KEYWORD2
+getStatus1	KEYWORD2
+getStatus2	KEYWORD2
+getSecond	KEYWORD2
+getMinute	KEYWORD2
+getHour	KEYWORD2
+getDay	KEYWORD2
+getWeekDay	KEYWORD2
+getMonth	KEYWORD2
+getYear	KEYWORD2
+formatTime	KEYWORD2
+formatDate	KEYWORD2
+alarmEnabled  KEYWORD2
+alarmActive  KEYWORD2
+enableAlarm KEYWORD2
+resetAlarm  KEYWORD2
+setSquareWave KEYWORD2
+clearSquareWave KEYWORD2
+getAlarmMinute  KEYWORD2
+getAlarmHour  KEYWORD2
+getAlarmDay KEYWORD2
+getAlarmWeekday KEYWORD2
+version KEYWORD2		
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+

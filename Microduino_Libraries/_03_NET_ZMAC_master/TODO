@@ -1,0 +1,3 @@
+* Enable SIO handling, possibly?  If so, I could just NOT copy over sio_handler.c, and define my own which
+defines _sio_putchar and friends to hit Serial.putc directly.  OR I could experiment to see if sio_usb would
+just work fine.

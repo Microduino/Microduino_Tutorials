@@ -1,0 +1,13 @@
+.*.swp
+.*.swo
+*.c
+*.h
+*.orig
+error
+errors
+ojam/
+!ZMAC.h
+!vendor_boardtypes.h
+!pal_board.c
+!pal_config.h
+!printf.h

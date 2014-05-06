@@ -1,0 +1,54 @@
+ZigduinoRadio Arduino Library 20110826
+ Porting uracoli 0.1.0rc1 to Arduino, for use with Zigduino
+ Fixed minor warning about the on Rx event's return type
+ Corrected some comments
+ Added C-only implementation
+ Fixed compilation issues by removing some "inline" 
+
+ZigduinoRadio Arduino Library 20110826
+ Porting uracoli 0.1.0rc1 to Arduino, for use with Zigduino
+
+0.1.0rc1
+ New Features
+  - generation of Makefile based source distribution
+  - new documentaion scheme uses flat doxygen structure
+  - arduino contribution package added
+  - sniffer contribution package added moved from the
+    uracoli-appnotes to here
+ New Hardware
+  - Boards: stb128rfa1, muse231
+ Changes/Misc
+  - packages are now defined in packages.cfg instead in
+    Tools/makerelease.sh
+  - new example build scheme uses one (make,aps)-file per example.
+  - software workaround for Sensor Terminal Board design flaw, to
+    avoid xmem bus contention
+
+
+0.0.11 20100121
+ New Features
+  - added new hardware abstraction using board.cfg file
+  - addded Zigbit Core for Arduino
+  - added python serial throuput tool wuarttest.py
+ New Hardware
+  - MCU ATmega8, Atmega88, Atmega644P, ATmega128RFA1
+  - Boards: littleGee V3, stkm8, rbb128rfa1, derfa1
+ Bugs
+  - #28148: incorporate patch that simplifies aps file generation
+    (xsl transformation was replaced by simple text transformation)
+ Changes/Misc
+  - raven usb stick uses now correct uracoli VID/PID
+  - clean up of warnings in the code
+  - reworked linear buffer examples
+  - refactoring of wuart application
+  - io data handling in ieee802154_io.py
+  - continued documentation
+
+0.0.10 20090721
+  - added new buffer macros in ioutil.h
+  - added FCTL macros in transceiver.h
+  - updated examples for lgee and radio stream
+    fixes in makerelease.sh
+
+0.0.9
+  - no change tracking till here

@@ -1,0 +1,91 @@
+
+# Build specific properties
+_TAL_TYPE = ATMEGARF_TAL_1 ;
+_PAL_TYPE = ATMEGA128RFA1 ;
+_PAL_GENERIC_TYPE = MEGA_RF ;
+_HIGHEST_STACK_LAYER = MAC ;
+_BOARD_TYPE = RCB_6_3_PLAIN ;
+# Make sure these match DEFINES !!
+
+APP_DIR = Star_Nobeacon ;
+
+# Path variables
+## Path to main project directory
+HOME ?= $(HOMEDRIVE)$(HOMEPATH) ;
+PATH_ROOT = $(HOME)/Source/MAC_v_2_6_1 ;
+PATH_APP = $(PATH_ROOT)/Applications/MAC_Examples/$(APP_DIR) ;
+PATH_TAL = $(PATH_ROOT)/TAL ;
+PATH_TFA = $(PATH_ROOT)/TFA ;
+PATH_MAC = $(PATH_ROOT)/MAC ;
+PATH_PAL = $(PATH_ROOT)/PAL ;
+PATH_RES = $(PATH_ROOT)/Resources ;
+PATH_GLOB_INC = $(PATH_ROOT)/Include ;
+PATH_SIO_SUPPORT = $(PATH_ROOT)/Applications/Helper_Files/SIO_Support ;
+
+OUT_DIR = . ;
+
+HDRS =  $(PATH_SIO_SUPPORT)/Inc $(PATH_GLOB_INC) $(PATH_RES)/Buffer_Management/Inc/ $(PATH_RES)/Queue_Management/Inc/ $(PATH_MAC)/Inc/ $(PATH_TAL)/Inc/ $(PATH_TAL)/$(_TAL_TYPE)/Inc/ $(PATH_ROOT)/TFA/Inc/ $(PATH_PAL)/Inc/ $(PATH_PAL)/$(_PAL_GENERIC_TYPE)/Generic/Inc $(PATH_PAL)/$(_PAL_GENERIC_TYPE)/$(_PAL_TYPE)/Boards/ $(PATH_PAL)/$(_PAL_GENERIC_TYPE)/$(_PAL_TYPE)/Inc/ $(PATH_APP)/Inc/ ;
+
+NON_MAC_LIB =  $(PATH_SIO_SUPPORT)/Src $(PATH_RES)/Buffer_Management/Src/ $(PATH_RES)/Queue_Management/Src/  $(PATH_TAL)/$(_TAL_TYPE)/Src/ $(PATH_ROOT)/TFA/$(_TAL_TYPE)/Src/ $(PATH_PAL)/Src/ $(PATH_PAL)/$(_PAL_GENERIC_TYPE)/Generic/Src $(PATH_PAL)/$(_PAL_GENERIC_TYPE)/$(_PAL_TYPE)/Src/ ; 
+MAC_LIB = $(PATH_MAC)/Src/ ; 
+TAL_LIB = $(PATH_TAL)/Src/ ;
+
+LIB_MODULES  	= [ GLOB $(NON_MAC_LIB) : *.c ] ;
+LIB_MODULES  	+= [ GLOB $(MAC_LIB) : mac*.c ] ;
+
+rule FilePrep
+{
+  Depends $(<) : $(<:D) ;
+  Depends $(<) : $(>) ;
+  Depends fileprep : $(<) ;
+  Clean clean : $(<) ;
+}
+
+actions FilePrep
+{
+  gawk -f fileprep.awk $(>) > $(<)
+}
+
+rule Archive
+{
+  Depends archive : $(<) ;
+  COMMIT on $(<) = $(2) ;
+  ALWAYS $(<) ;
+  NOTFILE archive ;
+}
+
+actions Archive
+{
+  git archive $(COMMIT) --prefix=ZMAC/ | gzip > $(<)
+}
+
+for _I in $(LIB_MODULES) [ GLOB $(HDRS) : *.h ]
+{
+  FilePrep $(_I:D=$(OUT_DIR)) : $(_I) ;
+}
+
+PROJECT_MAC_MODULES += usr_mcps_purge_conf.c ;
+PROJECT_MAC_MODULES += usr_mlme_beacon_notify_ind.c ;
+PROJECT_MAC_MODULES += usr_mlme_disassociate_conf.c ;
+PROJECT_MAC_MODULES += usr_mlme_disassociate_ind.c ;
+PROJECT_MAC_MODULES += usr_mlme_get_conf.c ;
+PROJECT_MAC_MODULES += usr_mlme_orphan_ind.c ;
+PROJECT_MAC_MODULES += usr_mlme_poll_conf.c ;
+PROJECT_MAC_MODULES += usr_mlme_rx_enable_conf.c ;
+PROJECT_MAC_MODULES += usr_mlme_sync_loss_ind.c ;
+
+PROJECT_HDRS = $(PATH_APP)/Src $(PATH_APP)/Inc ;
+
+EXAMPLE_DIR = examples$(SLASH)$(APP_DIR) ;
+
+MkDir $(EXAMPLE_DIR) ;
+
+for _I in  $(MAC_LIB)/$(PROJECT_MAC_MODULES) [ GLOB $(PROJECT_HDRS) : *.h ]
+{
+  FilePrep $(_I:D=$(EXAMPLE_DIR)) : $(_I) ;
+}
+
+FilePrep $(EXAMPLE_DIR)/example_main.c : $(PATH_APP)/Src/main.c ;
+
+Archive $(HOME)/Downloads/ZMAC-0.3.tgz : 94f1a104b663138789eeaf59f3b5b17c1dd91012 ;
+Archive $(HOME)/Downloads/ZMAC-0.4.tgz : ec02e5468aba612b5b6f2e56a988cc8e9901a1c0 ;

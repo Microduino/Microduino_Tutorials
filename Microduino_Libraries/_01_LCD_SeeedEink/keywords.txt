@@ -1,0 +1,20 @@
+#######################################
+# Syntax Coloring Map For SeeedE-ink DisplayV0.9b
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+Eink   KEYWORD1;
+ 
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+clearScreen   KEYWORD2;
+refreshScreen KEYWORD2;
+getCharMatrixData   KEYWORD2;
+getChineseMatrixData  KEYWORD2;
+converCharMatrixData   KEYWORD2; 
+converChineseMatrixData    KEYWORD2;
+displayChar   KEYWORD2;
+displayChinese  KEYWORD2;
