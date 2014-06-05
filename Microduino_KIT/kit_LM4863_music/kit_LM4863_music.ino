@@ -73,7 +73,7 @@ ReEnter:
   Serial.println(F("\r\nEnter filename (send newline after input):"));
 
   Serial.print(F("Looking for file... "));
-  if(!SdPlay.setFile("TKZC.AFM")) {
+  if(!SdPlay.setFile("1.AFM")) {
     Serial.println(F(" not found on card! Error code: "));
     Serial.println(SdPlay.getLastError());
     goto ReEnter;
