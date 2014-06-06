@@ -1,106 +1,106 @@
 import processing.serial.*;
 
-Serial myPort;        // The serial port
+Serial myPort;
+PFont b;
 
+int lf = 10;    // Linefeed in ASCII
+String myString = null;
+float angle;
 
-PFont myFont;
-
-double x=0,y=0;
-int r;
-float hudu;
-
-void setup() {
-  
-    println(Serial.list());
-
-  // is always my  Arduino, so I open Serial.list()[0].
-  // Open whatever port is the one you're using.
+void setup(){
+  size(600,400);
+  b = loadFont("Arial-BoldMT-48.vlw");
   myPort = new Serial(this, Serial.list()[0], 9600);
-  myPort.bufferUntil('\n'); // Trigger a SerialEvent on new line
-
-  
-  
-  size(640, 480);
-  myFont = createFont("arial", 30);
-  r=(height/2)-50;
-  textFont (myFont);
 }
 
-void draw() {
-  background(255);
+void draw(){
 
-  stroke(color(0, 200, 200));
-  fill(255);
-  ellipse(width/2, height/2, 2*r, 2*r);
+background(255);
 
-
-  //arrow(width/2, height/2, (width/2)+(int)x, (height/2)-(int)y, color(200,0,200));
-  arrow(width/2, height/2, (width/2)+mouseX, (height/2)-mouseY, color(200,0,200));
-  //arrow(width/2, height/2, width/2, 50, color(0, 200, 200));
-
-
-  textAlign(CENTER);
-  fill(0, 102, 153);
-  //text("North", width/2, 25); 
-  PVector v1 = new PVector(0, width/2-50);
-  
-  
-  String val = myPort.readStringUntil('\n');
-  if (val != null) {
-    val = trim(val);
-    String xAndy[]=val.split(","); 
-    
-    println(xAndy);
-    
-    if(isNumeric(xAndy[0])&&isNumeric(xAndy[1])) {
-      x=Float.parseFloat(xAndy[0]);
-      y=Float.parseFloat(xAndy[1]);
+while (myPort.available() > 0) {
+    myString = myPort.readStringUntil(lf);
+    if (myString != null) {
+  //print(myString);  // Prints String
+    angle=float(myString);  // Converts and prints float
+    println(angle);
     }
+  }
+  translate(160, 50);
 
-  }
-  
-  
-  //PVector v2 = new PVector((width/2)-mouseX, (height/2)-mouseY); 
-  PVector v2 = new PVector((width/2)-(int)x, (height/2)-(int)y); 
-  float a = PVector.angleBetween(v1, v2);
-  if (x < width/2) {
-  //if (mouseX < width/2) {
-    text(-degrees(a)+360 + " degrees", width/2, height/4*3); 
-    hudu=3.14*((-degrees(a)+360)/180.0);
-  }
-  else {
-    text(degrees(a) + " degrees", width/2, height/4*3);  // Prints "10.304827");
-    hudu=3.14*(degrees(a)/180.0);
-  }
-  //text("(Clockwise from North)", width/2, height*.85);
-  fill(200, 0, 200);
-  text("South pole", width/2+(int)x, height-(height/2+(int)y));
-  //text("South pole", mouseX-50, mouseY+50);
-  
-  x=r*Math.sin(hudu);
-  y=r*Math.cos(hudu);
-}
+  // draw the compass background
+  ellipseMode(CENTER);
+  fill(50);
+  stroke(10);
+  strokeWeight(2);
+  ellipse(150,150,300,300);
 
-void arrow(int x1, int y1, int x2, int y2, color c) {
-  smooth();
-  stroke (c);
+  // draw the lines and dots
+  translate(150,150);  // translate the lines and dots to the middle of the compass
+  float CompassX = -angle;
+  rotate(radians(CompassX));
+  noStroke();
+  fill(51, 255, 51);
+
+  int radius = 120;
+
+  for( int degC = 5; degC < 360; degC += 10) //Compass dots
+  {
+    float angleC = radians(degC);
+    float xC = 0 + (cos(angleC)* radius);
+    float yC = 0 + (sin(angleC)* radius);
+    ellipse(xC,yC, 3, 3);
+  }
+
+  for( int degL = 10; degL < 370; degL += 10) //Compass lines
+  {
+    float angleL = radians(degL);
+    float x = 0 + (cos(angleL)* 145);
+    float y = 0 + (sin(angleL)* 145);
+ 
+    if( degL==90 || degL==180 || degL==270 || degL==360) {
+     stroke(51, 255, 51);
+     strokeWeight(4);
+    }
+    else {
+      stroke(234,144,7);
+      strokeWeight(2);
+    }
+    line(0,0, x,y);
+  }
+
+  fill(102, 102, 102);
+  noStroke();
+  ellipseMode(CENTER);
+  ellipse(0,0, 228,228); //draw a filled circle to hide the lines in the middle
+
+  b = loadFont("Arial-BoldMT-48.vlw");
+  textAlign(CENTER);
+
+  // Draw the letters
+  fill(250);
+  textFont(b, 32);
+  text("N", 1, -90);
+  rotate(radians(90));
+  text("E", 0, -90);
+  rotate(radians(90));
+  text("S", 0, -90);
+  rotate(radians(90));
+  text("W", 0, -90);
+  rotate(radians(90));
+ 
+  textFont(b,40);
+  textAlign(CENTER);
+  //text((angle), 20, 20);
+  println(angle);
+
+  //draw the needle
+
+  rotate(radians(-CompassX)); //make it stationary
+  stroke(234,144,7);
   strokeWeight(3);
-  line(x1, y1, x2, y2);
-  pushMatrix();
-  translate(x2, y2);
-  float a = atan2(x1-x2, y2-y1);
-  rotate(a);
-  line(0, 0, -10, -10);
-  line(0, 0, 10, -10);
-  popMatrix();
-} 
 
-public static boolean isNumeric(String str){
-  for (int i = 0; i < str.length(); i++){
-   //System.out.println(str.charAt(i));
-   if (!Character.isDigit(str.charAt(i))){
-    return false;
-   }
-  }
-  return true;
- }
+  triangle(-10, 0, 10, 0, 0, -85);
+  fill(234,144,7);
+  triangle(-10, 0, 10, 0, 0, 60);
+
+}
