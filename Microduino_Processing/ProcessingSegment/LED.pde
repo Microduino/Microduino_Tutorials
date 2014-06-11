@@ -25,7 +25,7 @@ class LED {
     } else {
       LEDState=loadImage("LEDOFF.png");
     }
-    image(LEDState,xpos,ypos);
+    image(LEDState,xpos,ypos,w,h);
   }
 
 }
