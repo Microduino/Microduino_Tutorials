@@ -4,40 +4,72 @@
 // by the mouse
 
 import processing.serial.*;
+import cc.arduino.*;
+import controlP5.*;
 
-Serial port;                // Create serial port object
+ControlP5 cp5;
+
+float turn=radians(-90);
+float speed=0;
+
+//Declare PFont variable
 PFont f;  
 
+Arduino arduino;
+
+int motorPin = 9;//Motor pin
+
+int vel = 0;//Value recorded motor
+
 void setup() {
-  size(640, 200);
+  size(600, 600);
+  strokeWeight(30);
 
-  // List all the available serial ports in the output pane.
-  // You will need to choose the port that the Wiring board is
-  // connected to from this list. The first port in the list is
-  // port #0 and the third port in the list is port #2.
-  println(Serial.list());
-
-  // Open the port that the Wiring board is connected to (in this case #2)
-  // Make sure to open the port at the same speed Wiring is using (9600bps)
-  port = new Serial(this, Serial.list()[0], 9600);
-
+  arduino = new Arduino(this, Arduino.list()[0], 57600); //your offset may vary
+  arduino.pinMode(motorPin, Arduino.OUTPUT);  
 
   f = loadFont( "ArialMT-16.vlw" );
+
+  cp5 = new ControlP5(this);
+
+  // add a vertical slider
+  cp5.addSlider("slider")
+    .setPosition(0, 580)
+      .setSize(600, 20)
+        .setRange(0, 600)
+          .setValue(25)
+            ;
 }
 
 void draw() 
 {
+
   background(0);
-  update(mouseX/10); 
-  println(mouseX);
+  noFill();
+  stroke(255);
+  smooth();
+  arc(width/2, height/2, 300, 300, turn, radians(map(speed, 0, 600, 0, 360))+turn);
+  //Specify font to be used
+  textFont(f, 48); 
+  //Display Text
+  text ((int)speed, width/2-30, height/2+20);
+
+
+  vel=(int)map(speed, 0, 600, 0, 255);//map
+  if (speed>0)//run motor by speed
+  {
+    arduino.analogWrite(motorPin, vel);
+    delay(1);
+  }
+  else//stop motor
+  {
+    arduino.analogWrite(motorPin, Arduino.LOW);
+  }
 }
 
-void update(int x) 
-{
-  port.write(x);
-
-  stroke(255);  
-  line(mouseX, 0, mouseX, 160);   
-  text (mouseX, mouseX, 180);
+void slider(float speedValue) {
+  speed=speedValue;
+  println("Motor Speed:"+speed);
 }
+
 

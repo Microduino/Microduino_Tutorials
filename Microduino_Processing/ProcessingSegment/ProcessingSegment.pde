@@ -23,7 +23,7 @@ PFont f;
 void setup() {
 
   arduino = new Arduino(this, Arduino.list()[0], 57600);
-  size(600, 200);
+  size(400, 700);
   smooth();
   
   f = loadFont( "TraditionalArabic-20.vlw" ); 
@@ -31,9 +31,18 @@ void setup() {
   fill(0);        //Specify font color
   
   for (int i = 0; i < leds.length; i ++ ) { // Initialize each led and output pin using a for loop.
-    leds[i] = new LED((i+1)*60, 75, 50,50,i+1);
     arduino.pinMode(microduinoPins[i], Arduino.OUTPUT); 
   }
+  
+  leds[0] = new LED(50, 350, 50,200,1);
+  leds[1] = new LED(100, 550, 200,50,2);
+  leds[2] = new LED(300, 350, 50,200,3);
+  leds[3] = new LED(350, 550, 50,50,4);
+  leds[4] = new LED(300, 100, 50,200,5);
+  leds[5] = new LED(100, 50, 200,50,6);
+  leds[6] = new LED(50, 100, 50,200,7);
+  leds[7] = new LED(100, 300, 200,50,8);
+
 }
 
 void draw() {
@@ -42,7 +51,7 @@ void draw() {
     leds[i].display();
     
     //draw segemnt lables
-    text (segmentLables[i], (i+1)*60+8, 60); 
+    text (segmentLables[i], leds[i].xpos, leds[i].ypos); 
     
     if (leds[i].button) {//switch led on/off
       arduino.digitalWrite(microduinoPins[i], Arduino.HIGH);
@@ -68,5 +77,6 @@ void mousePressed() {
     }
   }
 }
+
 
 
