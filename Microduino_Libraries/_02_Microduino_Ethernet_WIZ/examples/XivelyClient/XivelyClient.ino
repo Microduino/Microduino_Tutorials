@@ -38,11 +38,7 @@ http://arduino.cc/en/Tutorial/CosmClient
 // assign a MAC address for the ethernet controller.
 // Newer Ethernet shields have a MAC address printed on a sticker on the shield
 // fill in your address here:
-#if defined(WIZ550io_WITH_MACADDRESS) // Use assigned MAC address of WIZ550io
-;
-#else
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-#endif  
 
 // fill in an available IP address on your network here,
 // for manual configuration:
@@ -65,14 +61,10 @@ const unsigned long postingInterval = 10*1000; //delay between updates to cosm.c
 
 void setup() {
    // start serial port:
-   Serial.begin(9600);
+  Serial.begin(115200);
 
   // start the Ethernet connection:
-#if defined(WIZ550io_WITH_MACADDRESS)
-  if (Ethernet.begin() == 0) {
-#else
   if (Ethernet.begin(mac) == 0) {
-#endif  
     Serial.println("Failed to configure Ethernet using DHCP");
     // DHCP failed, so use a fixed IP address:
 #if defined(WIZ550io_WITH_MACADDRESS)

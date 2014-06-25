@@ -10,70 +10,6 @@ uint8_t EthernetClass::_state[MAX_SOCK_NUM] = { 0, };
 uint16_t EthernetClass::_server_port[MAX_SOCK_NUM] = { 0, };
 
 
-
-#if defined(WIZ550io_WITH_MACADDRESS)
-int EthernetClass::begin(void)
-{
- //byte mac_address[6] ={0x11, 0x11, 0x11, 0x11, 0x11, 0x11};
-byte mac_address[6] ={0x66, 0x88, 0x66, 0x88, 0x52, 0x32};
-  _dhcp = new DhcpClass();
-
-  // Initialise the basic info
-  W5100.init();
-  W5100.setIPAddress(IPAddress(0,0,0,0).raw_address());
-  W5100.setMACAddress(mac_address);
-  
-  // Now try to get our config info from a DHCP server
-  int ret = _dhcp->beginWithDHCP(mac_address);
-  if(ret == 1)
-  {
-    // We've successfully found a DHCP server and got our configuration info, so set things
-    // accordingly
-    W5100.setIPAddress(_dhcp->getLocalIp().raw_address());
-    W5100.setGatewayIp(_dhcp->getGatewayIp().raw_address());
-    W5100.setSubnetMask(_dhcp->getSubnetMask().raw_address());
-    _dnsServerAddress = _dhcp->getDnsServerIp();
-  }
-
-  return ret;
-}
-
-void EthernetClass::begin(IPAddress local_ip)
-{
-  // Assume the DNS server will be the machine on the same network as the local IP
-  // but with last octet being '1'
-  IPAddress dns_server = local_ip;
-  dns_server[3] = 1;
-  begin(local_ip, dns_server);
-}
-
-void EthernetClass::begin(IPAddress local_ip, IPAddress dns_server)
-{
-  // Assume the gateway will be the machine on the same network as the local IP
-  // but with last octet being '1'
-  IPAddress gateway = local_ip;
-  gateway[3] = 1;
-  begin(local_ip, dns_server, gateway);
-}
-
-void EthernetClass::begin(IPAddress local_ip, IPAddress dns_server, IPAddress gateway)
-{
-  IPAddress subnet(255, 255, 255, 0);
-  begin(local_ip, dns_server, gateway, subnet);
-}
-
-void EthernetClass::begin(IPAddress local_ip, IPAddress dns_server, IPAddress gateway, IPAddress subnet)
-{
-
- byte mac_address[6] ={0x88, 0x88, 0x66, 0x66, 0x36, 0x52};
-  W5100.init();
-  W5100.setIPAddress(local_ip._address);
-  W5100.setGatewayIp(gateway._address);
-  W5100.setSubnetMask(subnet._address);
-  W5100.setMACAddress(mac_address);
-  _dnsServerAddress = dns_server;
-}
-#else
 int EthernetClass::begin(uint8_t *mac_address)
 {
   _dhcp = new DhcpClass();
@@ -133,7 +69,6 @@ void EthernetClass::begin(uint8_t *mac, IPAddress local_ip, IPAddress dns_server
   _dnsServerAddress = dns_server;
 }
 
-#endif
 
 int EthernetClass::maintain(){
   int rc = DHCP_CHECK_NONE;

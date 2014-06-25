@@ -41,11 +41,7 @@
 
 // assign a MAC address for the ethernet controller.
 // fill in your address here:
-#if defined(WIZ550io_WITH_MACADDRESS) // Use assigned MAC address of WIZ550io
-;
-#else
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-#endif  
 
 // fill in an available IP address on your network here,
 // for manual configuration:
@@ -67,7 +63,7 @@ const unsigned long postingInterval = 10*1000; //delay between updates to xively
 
 void setup() {
  // Open serial communications and wait for port to open:
-  Serial.begin(9600);
+  Serial.begin(115200);
   while (!Serial) {
     ; // wait for serial port to connect. Needed for Leonardo only
   }
@@ -76,11 +72,7 @@ void setup() {
   // give the ethernet module time to boot up:
   delay(1000);
   // start the Ethernet connection:
-#if defined(WIZ550io_WITH_MACADDRESS)
-  if (Ethernet.begin() == 0) {
-#else
   if (Ethernet.begin(mac) == 0) {
-#endif  
     Serial.println("Failed to configure Ethernet using DHCP");
     // DHCP failed, so use a fixed IP address:
 #if defined(WIZ550io_WITH_MACADDRESS)

@@ -33,11 +33,7 @@
 //#include <EthernetDNS.h>
 
 // Ethernet Shield Settings
-#if defined(WIZ550io_WITH_MACADDRESS) // Use assigned MAC address of WIZ550io
-;
-#else
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-#endif  
 
 // If you don't specify the IP address, DHCP is used(only in Arduino 1.0 or later).
 // fill in an available IP address on your network here,
@@ -57,21 +53,12 @@ void setup()
 {
   delay(1000);
  // start the Ethernet connection:
-#if defined(WIZ550io_WITH_MACADDRESS)
-  Ethernet.begin(ip, dnsip, gw,snip);
-#else
  Ethernet.begin(mac, ip, dnsip, gw,snip);
-#endif
 // or you can use DHCP for autoomatic IP address configuration.
 // start the Ethernet connection:
-//#if defined(WIZ550io_WITH_MACADDRESS)
-//  Ethernet.begin();  
-//#else
 // Ethernet.begin(mac);
-//#endif
   
-
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.print("> ");
 }
 

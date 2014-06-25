@@ -26,11 +26,7 @@
 // Enter a MAC address and IP address for your controller below.
 // The IP address will be dependent on your local network.
 // gateway and subnet are optional:
-#if defined(WIZ550io_WITH_MACADDRESS) // Use assigned MAC address of WIZ550io
-;
-#else
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-#endif  
 IPAddress ip(192,168,1, 177);
 IPAddress gateway(192,168,1, 1);
 IPAddress subnet(255, 255, 0, 0);
@@ -42,7 +38,7 @@ boolean gotAMessage = false; // whether or not you got a message from the client
 void setup() {
  
   // Open serial communications and wait for port to open:
-  Serial.begin(9600);
+  Serial.begin(115200);
   // this check is only needed on the Leonardo:
    while (!Serial) {
     ; // wait for serial port to connect. Needed for Leonardo only
@@ -51,11 +47,7 @@ void setup() {
 
   // start the Ethernet connection:
   Serial.println("Trying to get an IP address using DHCP");
-#if defined(WIZ550io_WITH_MACADDRESS)
-  if (Ethernet.begin() == 0) {
-#else
   if (Ethernet.begin(mac) == 0) {
-#endif  
     Serial.println("Failed to configure Ethernet using DHCP");
     // initialize the ethernet device not using DHCP:
 #if defined(WIZ550io_WITH_MACADDRESS)

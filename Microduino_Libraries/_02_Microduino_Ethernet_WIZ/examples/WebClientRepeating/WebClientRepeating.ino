@@ -27,11 +27,7 @@
 
 // assign a MAC address for the ethernet controller.
 // fill in your address here:
-#if defined(WIZ550io_WITH_MACADDRESS) // Use assigned MAC address of WIZ550io
-;
-#else
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-#endif  
 // fill in an available IP address on your network here,
 // for manual configuration:
 // If you don't specify the IP address, DHCP is used(only in Arduino 1.0 or later).
@@ -54,7 +50,7 @@ const unsigned long postingInterval = 60*1000;  // delay between updates, in mil
 
 void setup() {
   // start serial port:
-  Serial.begin(9600);
+  Serial.begin(115200);
   // give the ethernet module time to boot up:
   delay(1000);
   // start the Ethernet connection using a fixed IP address and DNS server:

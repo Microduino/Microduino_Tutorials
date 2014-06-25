@@ -31,11 +31,7 @@
 // assign a MAC address for the ethernet controller.
 // fill in your address here:
 
-#if defined(WIZ550io_WITH_MACADDRESS) // Use assigned MAC address of WIZ550io
-;
-#else
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-#endif  
 
 // assign an IP address for the controller:
 IPAddress ip(192,168,1,20);
@@ -68,18 +64,14 @@ void setup() {
   SPI.begin();
 
   // start the Ethernet connection and the server:
-#if defined(WIZ550io_WITH_MACADDRESS) // Use assigned MAC address of WIZ550io
-  Ethernet.begin(ip);
-#else
   Ethernet.begin(mac, ip);
-#endif
 
   server.begin();
   // initalize the  data ready and chip select pins:
   pinMode(dataReadyPin, INPUT);
   pinMode(chipSelectPin, OUTPUT);
 
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   //Configure SCP1000 for low noise configuration:
   writeRegister(0x02, 0x2D);

@@ -11,7 +11,6 @@
 #include <string.h>
 #include <avr/interrupt.h>
 
-
 #include "w5100.h"
 
 #if defined(W5100_ETHERNET_SHIELD)

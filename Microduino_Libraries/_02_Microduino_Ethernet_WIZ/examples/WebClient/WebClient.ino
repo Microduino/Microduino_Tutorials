@@ -21,11 +21,7 @@
 
 // Enter a MAC address for your controller below.
 // Newer Ethernet shields have a MAC address printed on a sticker on the shield
-#if defined(WIZ550io_WITH_MACADDRESS) // Use assigned MAC address of WIZ550io
-;
-#else
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-#endif  
 // if you don't want to use DNS (and reduce your sketch size)
 // use the numeric IP instead of the name for the server:
 //IPAddress server(74,125,232,128);  // numeric IP for Google (no DNS)
@@ -41,17 +37,13 @@ EthernetClient client;
 
 void setup() {
  // Open serial communications and wait for port to open:
-  Serial.begin(9600);
+  Serial.begin(115200);
    while (!Serial) {
     ; // wait for serial port to connect. Needed for Leonardo only
   }
 
   // start the Ethernet connection:
-#if defined(WIZ550io_WITH_MACADDRESS)
-  if (Ethernet.begin() == 0) {
-#else
   if (Ethernet.begin(mac) == 0) {
-#endif  
     Serial.println("Failed to configure Ethernet using DHCP");
     // no point in carrying on, so do nothing forevermore:
     // try to congifure using IP address instead of DHCP:

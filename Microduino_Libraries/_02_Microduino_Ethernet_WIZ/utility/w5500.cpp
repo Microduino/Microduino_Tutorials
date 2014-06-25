@@ -10,8 +10,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <avr/interrupt.h>
-
 #include "w5100.h"
+
 #if defined(W5500_ETHERNET_SHIELD)
 
 // W5500 controller instance
