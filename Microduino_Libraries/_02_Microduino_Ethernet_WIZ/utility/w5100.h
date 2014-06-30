@@ -13,7 +13,7 @@
 #include <avr/pgmspace.h>
 #include <SPI.h>
 
-#define wiz_cs_pin 10	//CS_PIN
+#define wiz_cs_pin 8	//CS_PIN
 
 //#define W5100_ETHERNET_SHIELD // Arduino Ethenret Shield and Compatibles ...
 //#define W5200_ETHERNET_SHIELD // WIZ820io, W5200 Ethernet Shield 
