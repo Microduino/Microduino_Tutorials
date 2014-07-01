@@ -38,11 +38,11 @@ https://github.com/BlueVia/Official-Arduino
 #include <HardwareSerial.h>
 #include <Arduino.h>
 
-#if defined(__AVR_ATmega328P__) 
+#if defined(__AVR_ATmega328P__) || defined(__AVR_ATmega1284P__) || defined(__AVR_ATmega644P__)
 #define __TXPIN__ 3
 #define __RXPIN__ 2
 #define __RXINT__ 3
-#elif defined(__AVR_ATmega2560__) || defined(__AVR_ATmega1280__)  || defined(__AVR_ATmega1284P__)  || defined(__AVR_ATmega644P__) 
+#elif defined(__AVR_ATmega2560__) || defined(__AVR_ATmega1280__)  
 #define __TXPIN__ 3
 #define __RXPIN__ 10
 #define __RXINT__ 4
