@@ -1,0 +1,276 @@
+# LITERAL1 specifies constants
+
+HIGH	LITERAL1	Constants
+LOW	LITERAL1	Constants
+INPUT	LITERAL1	Constants
+OUTPUT	LITERAL1	Constants
+DEC	LITERAL1	Serial_Print
+BIN	LITERAL1	Serial_Print
+HEX	LITERAL1	Serial_Print
+OCT	LITERAL1	Serial_Print
+BYTE	LITERAL1	Serial_Print
+PI	LITERAL1
+HALF_PI	LITERAL1
+TWO_PI	LITERAL1
+LSBFIRST	LITERAL1	ShiftOut
+MSBFIRST	LITERAL1	ShiftOut
+CHANGE	LITERAL1	AttachInterrupt
+FALLING	LITERAL1	AttachInterrupt
+RISING	LITERAL1	AttachInterrupt
+EXT_INTERRUPT_INVALID_PIN LITERAL1 AttachInterrupt
+EXT_INTERRUPT_INVALID_FUNCTION LITERAL1 AttachInterrupt
+EXT_INTERRUPT_INVALID_MODE LITERAL1 AttachInterrupt
+DEFAULT	LITERAL1	AnalogReference
+EXTERNAL	LITERAL1	AnalogReference
+INTERAL	LITERAL1	AnalogReference
+
+OUTPUT_OPEN_DRAIN	LITERAL1
+INPUT_FLOATING	LITERAL1
+INPUT_PULLUP	LITERAL1
+INPUT_PULLDOWN	LITERAL1
+INPUT_ANALOG	LITERAL1
+PWM	LITERAL1
+PWM_OPEN_DRAIN	LITERAL1
+
+BOARD_LED_PIN	LITERAL1
+BOARD_BUTTON_PIN	LITERAL1
+BOARD_USART1_TX_PIN	LITERAL1
+BOARD_USART1_RX_PIN	LITERAL1
+BOARD_USART2_TX_PIN	LITERAL1
+BOARD_USART2_RX_PIN	LITERAL1
+BOARD_USART3_TX_PIN	LITERAL1
+BOARD_USART3_RX_PIN	LITERAL1
+BOARD_UART4_TX_PIN	LITERAL1
+BOARD_UART4_RX_PIN	LITERAL1
+BOARD_UART5_TX_PIN	LITERAL1
+BOARD_UART5_RX_PIN	LITERAL1
+BOARD_NR_GPIO_PINS	LITERAL1
+BOARD_NR_PWM_PINS	LITERAL1
+BOARD_NR_ADC_PINS	LITERAL1
+BOARD_NR_USED_PINS	LITERAL1
+CYCLES_PER_MICROSECOND	LITERAL1
+SYSTICK_RELOAD_VAL	LITERAL1
+
+BIT0 LITERAL1
+BIT1 LITERAL1
+BIT2 LITERAL1
+BIT3 LITERAL1
+BIT4 LITERAL1
+BIT5 LITERAL1
+BIT6 LITERAL1
+BIT7 LITERAL1
+BIT8 LITERAL1
+BIT9 LITERAL1
+BIT10 LITERAL1
+BIT11 LITERAL1
+BIT12 LITERAL1
+BIT13 LITERAL1
+BIT14 LITERAL1
+BIT15 LITERAL1
+BIT16 LITERAL1
+BIT17 LITERAL1
+BIT18 LITERAL1
+BIT19 LITERAL1
+BIT20 LITERAL1
+BIT21 LITERAL1
+BIT22 LITERAL1
+BIT23 LITERAL1
+BIT24 LITERAL1
+BIT25 LITERAL1
+BIT26 LITERAL1
+BIT27 LITERAL1
+BIT28 LITERAL1
+BIT29 LITERAL1
+BIT30 LITERAL1
+BIT31 LITERAL1
+
+SPI_18MHZ LITERAL1
+SPI_9MHZ LITERAL1
+SPI_4_5MHZ LITERAL1
+SPI_2_25MHZ LITERAL1
+SPI_1_125MHZ LITERAL1
+SPI_562_500KHZ LITERAL1
+SPI_281_250KHZ LITERAL1
+SPI_140_625HZ LITERAL1
+MAX_SPI_FREQS LITERAL1
+
+# KEYWORD1 specifies datatypes and C/C++ keywords
+
+boolean	KEYWORD1	BooleanVariables
+break	KEYWORD1	Break
+byte	KEYWORD1	Byte
+case	KEYWORD1	SwitchCase
+char	KEYWORD1	Char
+class	KEYWORD1
+continue	KEYWORD1	Continue
+default	KEYWORD1	SwitchCase	
+do	KEYWORD1	DoWhile
+double	KEYWORD1	Double
+else	KEYWORD1	Else
+false	KEYWORD1	Constants
+float	KEYWORD1	Float
+for	KEYWORD1	For
+if	KEYWORD1	If
+int	KEYWORD1	Int
+long	KEYWORD1	Long
+new	KEYWORD1	
+null	KEYWORD1	
+private	KEYWORD1
+protected	KEYWORD1	
+public	KEYWORD1	
+return	KEYWORD1	Return	
+short	KEYWORD1
+signed	KEYWORD1
+static	KEYWORD1	Static	
+switch	KEYWORD1	SwitchCase
+this	KEYWORD1	
+throw	KEYWORD1	
+try	KEYWORD1	
+true	KEYWORD1	
+unsigned	KEYWORD1
+void	KEYWORD1	Void
+while	KEYWORD1	While
+word	KEYWORD1	Word
+
+pow	KEYWORD1	Pow
+goto	KEYWORD1	Goto
+
+uint8	KEYWORD1
+uint16	KEYWORD1
+uint32	KEYWORD1
+uint64	KEYWORD1
+int8	KEYWORD1
+int16	KEYWORD1
+int32	KEYWORD1
+int64	KEYWORD1
+
+HardwareSerial KEYWORD1
+
+# operators aren't highlighted, but may have documentation
+
++=		IncrementCompound
++		Arithmetic
+[]		arrayaccess
+=		assign
+&		BitwiseAnd
+|		BitwiseAnd
+,		
+//		Comments
+?:		
+{}		Braces
+--		Increment
+/		Arithmetic
+/*		Comments
+.		dot
+==		
+<		greaterthan
+<=		greaterthanorequalto
+++		Increment
+!=		inequality
+<<		Bitshift
+<		lessthan
+<=		lessthanorequalto
+&&		Boolean
+!		Boolean
+||		Boolean
+-		Arithmetic
+%		Modulo
+*		Arithmetic
+()		parentheses
+>>		Bitshift
+;		SemiColon
+-=		IncrementCompound
+
+# these are datatypes, but we've also defined functions to cast to them
+
+boolean	KEYWORD2	boolean_
+byte	KEYWORD2	byte_
+char	KEYWORD2	char_
+float	KEYWORD2	float_
+int	KEYWORD2	int_
+long	KEYWORD2	long_
+word	KEYWORD2	word_
+
+# KEYWORD2 specifies methods and functions
+
+abs	KEYWORD2	Abs
+acos	KEYWORD2	ACos
+asin	KEYWORD2	ASin
+atan	KEYWORD2	ATan
+atan2	KEYWORD2	ATan2
+ceil	KEYWORD2	Ceil
+constrain	KEYWORD2	Constrain
+cos	KEYWORD2	Cos
+degrees	KEYWORD2
+exp	KEYWORD2	Exp
+floor	KEYWORD2	Floor
+log	KEYWORD2	Log
+map	KEYWORD2	Map
+max	KEYWORD2	Max
+min	KEYWORD2	Min
+radians	KEYWORD2
+random	KEYWORD2	Random
+randomSeed	KEYWORD2	RandomSeed
+round	KEYWORD2
+sin	KEYWORD2	Sin
+sq	KEYWORD2	Sq
+sqrt	KEYWORD2	Sqrt
+tan	KEYWORD2	Tan
+
+bitRead	KEYWORD2	BitRead
+bitWrite	KEYWORD2	BitWrite
+bitSet	KEYWORD2	BitSet
+bitClear	KEYWORD2	BitClear
+bit	KEYWORD2	Bit
+highByte	KEYWORD2	HighByte
+lowByte	KEYWORD2	LowByte
+
+# TODO add in noTone(), pulseIn(), tone() when they're done
+# noTone	KEYWORD2	NoTone
+# pulseIn	KEYWORD2	PulseIn
+# tone	KEYWORD2	Tone
+
+toggleLED	KEYWORD2
+togglePin	KEYWORD2
+analogReference	KEYWORD2	AnalogReference
+analogRead	KEYWORD2	AnalogRead
+analogWrite	KEYWORD2	AnalogWrite
+attachInterrupt	KEYWORD2	AttachInterrupt
+detachInterrupt	KEYWORD2	DetachInterrupt
+delay	KEYWORD2	Delay
+delayMicroseconds	KEYWORD2	DelayMicroseconds
+digitalWrite	KEYWORD2	DigitalWrite
+digitalRead	KEYWORD2	DigitalRead
+interrupts	KEYWORD2
+millis	KEYWORD2	Millis
+micros	KEYWORD2	Micros
+noInterrupts	KEYWORD2	NoInterrupts
+pinMode	KEYWORD2	PinMode
+shiftOut	KEYWORD2	ShiftOut
+boardUsesPin	KEYWORD2
+
+Serial	KEYWORD3	Serial
+Serial1	KEYWORD3	Serial
+Serial2	KEYWORD3	Serial
+Serial3	KEYWORD3	Serial
+begin	KEYWORD2	Serial_Begin
+end	KEYWORD2	Serial_End
+read	KEYWORD2	Serial_Read
+print	KEYWORD2	Serial_Print
+println	KEYWORD2	Serial_Println
+available	KEYWORD2	Serial_Available
+flush	KEYWORD2	Serial_Flush
+
+setup	KEYWORD3	Setup
+loop	KEYWORD3	Loop
+boardADCPins	KEYWORD3
+boardPWMPins	KEYWORD3
+boardUsedPins	KEYWORD3
+
+sizeof	KEYWORD2
+pwmWrite	KEYWORD2
+SerialUSB	KEYWORD3
+Timer1	KEYWORD3
+Timer2	KEYWORD3
+Timer3	KEYWORD3
+Timer4	KEYWORD3
