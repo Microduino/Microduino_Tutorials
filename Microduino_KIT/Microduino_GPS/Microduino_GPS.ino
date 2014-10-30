@@ -11,7 +11,7 @@
  */
 
 //==========================
-#define DEBUG		//是否开启串口DEBUG功能
+//#define DEBUG		//是否开启串口DEBUG功能
 #define GPS_Serial Serial1		//选择GPS通讯串口
 
 #define PIN_LED1 -1	//SD状态提示LED1
@@ -30,7 +30,7 @@
 
 //==========================
 
-int _V_bat;
+int _V_bat=_V_min;
 void vobat()
 {
   _V_bat=10*((5.0f*analogRead(PIN_bat)/1023.0f)/(33.0f/(51.0f+33.0f)));
@@ -236,7 +236,7 @@ boolean key1_cache;		//检测按键松开缓存
 boolean vokey(int _vokey)
 {
   key1=digitalRead(_vokey);
-  delay(5);
+
   if(key1 && key1_cache)		//按下松开后
   {
     key1_cache=!key1;		//缓存作判断用
@@ -710,9 +710,11 @@ void vooled()
     else
     {
       u8g.print("N/A");
-      setFont_M;
+      setFont_S;
+      u8g.print("  no fix");
     }
 
+    setFont_M;
     u8g.setPrintPos(2, 32);
     u8g.print("Lat.: ");
     u8g.print( c_lat);
@@ -725,7 +727,6 @@ void vooled()
     u8g.print(" ");
     u8g.print(f_longitude,4);
 
-
     u8g.drawLine(0, 44, 128, 44);
 
     u8g.drawLine(0, 55, 128, 55);
@@ -733,26 +734,19 @@ void vooled()
     u8g.setPrintPos(2, 53);
     if(!b_oled_updata)	//按键是否动作
     {
-      if(STA)
-      {
-        u8g.print("20");
-        u8g.print(idate[0]);
-        u8g.print("-");
-        u8g.print(idate[1]);
-        u8g.print("-");
-        u8g.print(idate[2]);
+      u8g.print("20");
+      u8g.print(idate[0]);
+      u8g.print("-");
+      u8g.print(idate[1]);
+      u8g.print("-");
+      u8g.print(idate[2]);
 
-        u8g.print("  ");
-        u8g.print(itime[0]);
-        u8g.print(":");
-        u8g.print(itime[1]);
-        u8g.print(":");
-        u8g.print(itime[2]);
-      }
-      else
-      {
-        u8g.print("-- GPS is Not Ready --");
-      }
+      u8g.print("  ");
+      u8g.print(itime[0]);
+      u8g.print(":");
+      u8g.print(itime[1]);
+      u8g.print(":");
+      u8g.print(itime[2]);
     }
     else
     {
@@ -764,8 +758,9 @@ void vooled()
     //------------------
     u8g.drawFrame(2, 57, 14, 7);
     u8g.drawBox(2, 57, map(_V_bat,_V_min,_V_max,1,14) , 7);
+    u8g.drawFrame(16, 59, 2, 3);
 
-    u8g.setPrintPos(20, 64);
+    u8g.setPrintPos(24, 64);
     u8g.print("STA :");
     u8g.print(i_satellites);    
 
@@ -838,13 +833,13 @@ void loop()
     vosd_dataupdata();
     time_oled_updata=millis();
   }
-
   b_oled_updata=! boolean (millis()-time_oled_updata>init_oled_updata);		//按键动作时
 
   //GPS-------------------------------
   vogps_databegin();
 
   vogps_dataread();
+
 
   //SD-------------------------------
   if(time_sdwrite>millis()) time_sdwrite=millis();
@@ -872,4 +867,10 @@ void loop()
 
     time_oled=millis();
   }
+
 }
+
+
+
+
+

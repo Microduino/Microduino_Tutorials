@@ -44,26 +44,28 @@ void draw(void)
 void loop() {
   int button = analogRead(A7);
   int button_down = analogRead(A6);
-  if(button_down>500&&button_down<600)
+  if(button_down>300&&button_down<600)
   key_down=1;
-  else if(button_down>600&&button_down<700)
+  else if(button_down>200&&button_down<300)
   key_down=2;
   else
   key_down=0;
-  if(button<40)
-    key_up=2;
-  else if(button>50&&button<100) 
+  
+  if(button>50&&button<100)
     key_up=4;
-  else if(button>145&&button<155) 
+  else if(button>0&&button<50) 
+    key_up=2;
+  else if(button>100&&button<155) 
     key_up=1;
-  else if(button>240&&button<250) 
+  else if(button>200&&button<280) 
     key_up=5;
-  else if(button>380&&button<400) 
+  else if(button>340&&button<420) 
     key_up=3;
   else
     key_up=0;   
-  Serial.print(key_up);
-  Serial.println(key_down);
+  Serial.print(button);
+  Serial.print("     ");
+  Serial.println(button_down);
   delay(100);
 
   if(millis()-timer>2)
@@ -77,7 +79,6 @@ void loop() {
     draw();
   } 
   while( u8g.nextPage() );
-
 }
 
 
