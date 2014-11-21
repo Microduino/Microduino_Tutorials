@@ -1,0 +1,4 @@
+Breakout : Sebastian Goscik in the UK did a great job making Breakout for Hackvision. The code is shorter than I thought it would be, and look at that awesome title screen! 
+
+
+If the action is a little too fast for you, change the argument in the line TV.delay_frame(1) to 2 instead of 1.
