@@ -31,8 +31,8 @@ uint32_t t;
 int resultLength;
 
 // WiFi network (change with your settings !)
-#define WLAN_SSID       "ray"        // cannot be longer than 32 characters!
-#define WLAN_PASS       "34689127Ray"
+#define WLAN_SSID       "Your route"        // cannot be longer than 32 characters!
+#define WLAN_PASS       "Password"
 #define WLAN_SECURITY   WLAN_SEC_WPA2 // This can be WLAN_SEC_UNSEC, WLAN_SEC_WEP, WLAN_SEC_WPA or WLAN_SEC_WPA2
 
 // What TCP port to listen on for connections.
