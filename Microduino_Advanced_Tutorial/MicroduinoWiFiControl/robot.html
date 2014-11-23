@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="jquery-2.0.3.min.js"></script>
+	<script src="script.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<title>Robot Control</title>
+</head>
+
+<body>
+	<form id="robot" action="robot.php" method="GET">
+    	<input type="button" id="stop" class="commandButton" value="Turn off" onClick="stopRobot()"/>
+    	<input type="button" id="fullfw" class="commandButton" value="All led" onClick="fullForward()"/>
+		<input type="button" id="turnleft" class="commandButton" value="left led" onClick="turnLeft()"/>
+		<input type="button" id="turnright" class="commandButton" value="right led" onClick="turnRight()"/>
+
+	</form>
+
+</body>
+
+</html>
+

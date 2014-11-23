@@ -1,0 +1,23 @@
+body {
+	font-family: Helvetica;
+}
+
+.commandButton {
+	background-color: orange;
+	border: 1px solid black; 
+	font-size: 40px;
+	cursor: pointer;
+	border-radius: 10px;
+}
+
+@media screen and (max-device-width: 400px) {
+	
+	.commandButton {
+		width: 100%;
+		height: 200px;
+		border: 2px solid black; 
+		font-size: 80px;
+		margin-bottom: 50px;
+		text-align: center;
+	}
+}
