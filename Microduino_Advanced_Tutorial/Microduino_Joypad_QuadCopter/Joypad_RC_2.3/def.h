@@ -8,9 +8,9 @@
 #define mwc_port_speed 115200
 
 #if  defined(__AVR_ATmega32U4__)
-#define mwc_port Serial1    //Serial1 is D0 D1
+#define mwc_port Serial1
 #else
-#define mwc_port Serial    //Serial is D0 D1
+#define mwc_port Serial 
 #endif
 
 //Key-------------

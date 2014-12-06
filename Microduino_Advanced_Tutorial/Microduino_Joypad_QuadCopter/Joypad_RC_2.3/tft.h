@@ -103,7 +103,7 @@ void Joy_correct()
     tft.print("Robot");
   }
 
-#if defined(__AVR_ATmega1284P__) || defined(__AVR_ATmega644P__) || defined(__AVR_ATmega128RFA1__)
+#if defined(__AVR_ATmega1284P__) || defined(__AVR_ATmega644P__) || defined(__AVR_ATmega128RFA1__)|| defined(__AVR_ATmega328P__)
   tft.drawRect(2, 89, 124, 16, TFT_TOP);
   //but---------------------------------
   if(vokey(4) || tft_cache)

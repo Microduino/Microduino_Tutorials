@@ -2,7 +2,7 @@
 #include "def.h"
 #include "time.h"
 #include "bat.h"
-#if defined(__AVR_ATmega1284P__) || defined(__AVR_ATmega644P__) || defined(__AVR_ATmega128RFA1__)
+#if defined(__AVR_ATmega1284P__) || defined(__AVR_ATmega644P__) || defined(__AVR_ATmega128RFA1__) || defined(__AVR_ATmega328P__)
 #include "mpu.h"
 #endif
 #include "joy.h"
