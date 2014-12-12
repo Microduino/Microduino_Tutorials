@@ -628,14 +628,17 @@ void nRF()
         RF24NetworkHeader header(0);
       boolean ok = network.write(header,&sen,sizeof(sen));
       if (ok)
+      {
         Serial.println("ok.");
+
+    steering=map(robot_steering,1000,2000,MAX_STEERING,-MAX_STEERING);  
+    throttle=map(robot_throttle,1000,2000,MAX_THROTTLE,-MAX_THROTTLE);  
+      }
 
       else
         Serial.println("failed.");
     }
 
-    steering=map(robot_steering,1000,2000,-MAX_STEERING,MAX_STEERING);  
-    throttle=map(robot_throttle,1000,2000,-MAX_THROTTLE,MAX_THROTTLE);  
 
     safe_ms=millis();
   }
