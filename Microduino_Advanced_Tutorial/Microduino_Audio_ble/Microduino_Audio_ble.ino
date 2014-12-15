@@ -1,22 +1,23 @@
-byte key0[4] ={
-  0x7E,0x02,0x0D,0xEF};//play
-byte key1[4] ={
-  0x7E,0x02,0x0E,0xEF};//stop
-byte key2[4] ={
-  0x7E,0x02,0x02,0xEF};//up
-byte key3[4] ={
-  0x7E,0x02,0x01,0xEF};//down
-byte key4[4] ={
-  0x7E,0x02,0x04,0xEF};//vol+
-byte key5[4] ={
-  0x7E,0x02,0x05,0xEF};//vol-
+#include <pgm/space.h>
+#include "Micromenu.h"
+#include "U8glib.h"
 
-byte key6[5] ={
-  0x7E,0x03,0x09,0x01,0xEF};//device select "tf"   U/TF/AUX/SLEEP/FLASH      00-05
-byte key7[5] ={
-  0x7E,0x03,0x11,0x00,0xEF};//play mode     "all"  ALL FOL ONE RAM ONE_STOP  00-05
-byte key8[5]={
-  0x7E,0x03,0x06,0x18,0xEF};//vol 24 0-1E(0-30)-16,8,4,2,1
+//用户自定义部分------------------------
+//nRF------------------------
+#include <RF24Network.h>
+#include <RF24.h>
+#include <SPI.h>
+
+//RTC------------------------
+#include <Rtc_Pcf8563.h>
+#include <Wire.h>
+
+//EEPROM---------------------
+#include <EEPROM.h>
+
+//输入设备-------------------
+//#include <Joypad.h>
+//用户自定义部分------------------------
 
 #include <SoftwareSerial.h>
 
@@ -27,48 +28,146 @@ String comdata = "";  //显示的字符串
 int pinRx = 4;
 int pinTx = 5;
 
-void setup()
-{  
+void setup() 
+{
   Serial.begin(9600);
   mySerial.begin(9600); 
   pinMode(pinTx,OUTPUT);
   pinMode(pinRx,INPUT_PULLUP);
-  for(int a=0;a<5;a++)Serial.write(key8[a]);  //vol 18
-  delay(300);
-  for(int a=0;a<5;a++)Serial.write(key6[a]);  //tf card
-  delay(300);
-  for(int a=0;a<5;a++)Serial.write(key7[a]);  //play all
-  delay(600);
-  while(!Serial)
-  {
-  }
+
+  // u8g.setRot180();  // rotate screen, if required
+  osd_smart_init();    //界面条件初始化
+
+  //用户自定义部分------------------------
+  //EEPROM---------------------
+  eeprom_READ();
+
+  set_alarm(alarm_hour,alarm_minute);  
+
+  delay(500);
+  audio_reset();
+  audio_device(1);
+  audio_vol(alarm_vol);
+  audio_mode(1);
+
+  pinMode(3,INPUT_PULLUP);
+  pinMode(4,INPUT_PULLUP);
+  pinMode(5,INPUT_PULLUP);
+  pinMode(6,INPUT_PULLUP);
+  pinMode(7,INPUT_PULLUP);
+  //用户自定义部分------------------------
 }
 
-void loop()
-{
+
+void loop() 
+{  
   while (mySerial.available() > 0)  //判断串口是否有输入
   {
     comdata += char(mySerial.read()); //读取字符
     delay(2);                         //等待串口缓存
   }
   if(comdata=="play")
-    for(int a=0;a<4;a++)Serial.write(key0[a]);
+    audio_play();
   else if(comdata=="stop")
-    for(int a=0;a<4;a++)Serial.write(key1[a]);
+    audio_pause();
   else if(comdata=="up")
-    for(int a=0;a<4;a++)Serial.write(key2[a]);
+    audio_up();
   else if(comdata=="down")
-    for(int a=0;a<4;a++)Serial.write(key3[a]);
+    audio_down();
   else if(comdata=="vol+")
-    for(int a=0;a<4;a++)Serial.write(key4[a]);
+    audio_vol_up();
   else if(comdata=="vol-")
-    for(int a=0;a<4;a++)Serial.write(key5[a]);
+    audio_vol_down();
 
   comdata = "";
+
+  uiStep();	//检测输入动作
+
+  updateMenu(type);	//根据输入动作更新菜单项
+
+  if(!menu_level)	//运行主界面
+  {
+    if(millis() < time_drawMain) time_drawMain=millis();
+    if(millis() - time_drawMain > init_drawMain)
+    {
+      osd_smart_run(false); 
+
+      time_drawMain=millis();
+    }
+  }
+  else if(menu_redraw_required)		//根据输入动作运行菜单
+  {
+    osd_smart_begin();
+    osd_smart_run(true);
+    menu_redraw_required = false;
+  }
+
+
+
+  //用户自定义部分------------------------
+  //仅在主界时运行===
+  if(!menu_level)  
+  {
+
+  }
+
+  //除配置模式，任何时候都运行===
+  if(!sta)
+  {
+    //RTC------------------------
+    if(millis()<time_rtc) time_rtc=millis();
+    if(millis()-time_rtc>interval_rtc)
+    {
+      getRTC();
+      getDateStamp(getTimeStamp(Hour,Minute,Second,Day,Month,Year));
+
+      time_rtc=millis();
+    }
+
+    if (alarm_flag==1)
+    {
+      delay(1000);
+      set_alarm(alarm_hour,alarm_minute);
+
+      if(alarm_switch)
+      {
+        do_alarm(alarm_tone);
+
+        alarm_sta=true;
+      }
+    }
+
+    if(alarm_sta)
+    {
+      if(menu_level)
+      {
+        end_alarm(alarm_tone);
+
+        alarm_sta=false;
+      }
+    }
+
+  }
+
+  if(test_audio)
+  {
+    if(num!=num_cache)
+    {
+      test_alarm(num);
+    }
+    num_cache=num;
+  }
+
+  if(test_audio_vol)
+  {
+    if(num!=num_cache)
+    {
+      test_alarm_vol(num);
+    }
+    num_cache=num;
+  }
+  //用户自定义部分------------------------
 }
-
-
-
 
 
 
