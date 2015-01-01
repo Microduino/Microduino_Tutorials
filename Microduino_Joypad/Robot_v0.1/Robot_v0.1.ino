@@ -158,7 +158,7 @@ boolean motor_driver(int _motor_driver_num,int _motor_driver_vol)
     if(_motor_driver_vol==0)
     {
       //Serial.println("1 OFF");
-      analogWrite(motor_pin1A,_motor_driver_vol);
+      digitalWrite(motor_pin1A,LOW);
       digitalWrite(motor_pin1B,LOW);
     }
     else if(_motor_driver_vol>0)
