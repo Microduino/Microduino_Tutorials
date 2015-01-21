@@ -23,7 +23,7 @@ int sensor_vol_cache[7];
 #define music_num_MIN 1		//歌曲最小数，固定
 #define music_num_MAX 2	//歌曲最大数，可改
 
-int music_vol=30;  //初始音量0~30
+int music_vol=28;  //初始音量0~30
 
 
 int pin_light[7]=
