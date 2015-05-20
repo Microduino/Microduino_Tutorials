@@ -2,6 +2,8 @@
 #define rocker_X A2
 #define rocker_Y A3
 
+#define buzzer_pin 6
+
 int x,y;
 int value;
 
@@ -28,7 +30,7 @@ void loop() {
 
 
   value = map(x, 0, 1023, 0, 255);
-  analogWrite(6,value);
+  tone(buzzer_pin,value);
 
 }
 
