@@ -28,9 +28,12 @@ void loop() {
 
   delay(500);
 
+  if(x<100) {
+    x=100;
+  }
 
-  value = map(x, 0, 1023, 0, 255);
-  tone(buzzer_pin,value);
+  //value = map(x, 0, 1023, 0, 255);
+  tone(buzzer_pin,x);
 
 }
 
