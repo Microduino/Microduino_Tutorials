@@ -643,6 +643,3 @@ void nRF()
     safe_ms=millis();
   }
 }
-
-
-
