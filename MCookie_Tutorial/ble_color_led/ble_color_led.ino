@@ -133,6 +133,11 @@ void colorSet(uint32_t c) {
   strip.show();
 }
 
+void colorSet(uint32_t c, int i) {
+  strip.setPixelColor(i, c);
+  strip.show();
+}
+
 void rainbowCycle(uint8_t wait, int r, int g, int b, int num) {
   if (num == 0)
   {
