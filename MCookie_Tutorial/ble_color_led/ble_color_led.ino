@@ -4,8 +4,8 @@
 
 SoftwareSerial mySerial(4, 5); //RX,TX
 
-#define my_Serial mySerial
-//#define my_Serial Serial1
+//#define my_Serial mySerial
+#define my_Serial Serial1
 
 #define PIXEL_PIN    A0    // Digital IO pin connected to the NeoPixels.
 #define PIXEL_COUNT  6
