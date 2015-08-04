@@ -132,20 +132,23 @@ int tempo = 220; // in milliseconds
 void playNote(int note, int beat) {
   noTone(speakerPin); // speaker reset
   tone(speakerPin, note); // play tone
+  key_pree();
   delay(tempo * beat); // for specified number of beats
   noTone(speakerPin); // speaker reset
+  key_pree();
   delay(tempo / 4); // pause between notes
 }
 
 void setup() {
   Serial.begin(115200);
-  pinMode(key_Pin, INPUT_PULLUP);
-  attachInterrupt(4, blink, FALLING);
+  pinMode(key_Pin, INPUT);
+  //attachInterrupt(4, blink, FALLING);
   strip.begin();
   strip.show();
 }
 
 void loop() {
+  key_pree();
   if (play_pause)
   {
     for (int i = 0; i < songLength; i++) {
@@ -173,15 +176,18 @@ void loop() {
     colorSet(0);
 }
 
-void blink()
-{
-  delay(300);
-  play_pause = !play_pause;
-}
-
 void colorSet(uint32_t c) {
   for (uint16_t i = 0; i < strip.numPixels(); i++) {
     strip.setPixelColor(i, c);
   }
   strip.show();
+}
+
+void key_pree()
+{
+  if (key_get(key_Pin, 0))
+  {
+    delay(200);
+    play_pause = !play_pause;
+  }
 }
