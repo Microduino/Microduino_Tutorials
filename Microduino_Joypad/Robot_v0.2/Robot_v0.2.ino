@@ -1,18 +1,18 @@
-#define motor_pin0A 7  //PWM
-#define motor_pin0B 5
-#define motor_pin1A 8  //PWM 
-#define motor_pin1B 6
+#define motor_pin0A 5  //PWM
+#define motor_pin0B 7
+#define motor_pin1A 6  //PWM 
+#define motor_pin1B 8
 
 /*
 //small sanlun
-#define motor_pin0A 5  //PWM
-#define motor_pin0B 8
-#define motor_pin1A 6  //PWM 
-#define motor_pin1B 7
+#define motor_pin0A 6  //PWM
+#define motor_pin0B 7
+#define motor_pin1A 5  //PWM 
+#define motor_pin1B 8
 */
 
 #define FIX_THROTTLE_A 1
-#define FIX_THROTTLE_B 1
+#define FIX_THROTTLE_B -1
 
 #define REVERSE_THROTTLE 1
 #define REVERSE_STEERING -1
